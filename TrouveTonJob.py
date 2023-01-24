@@ -57,5 +57,4 @@ for keyword in keywords:
     df["Intitulé du poste"] = df["Intitulé du poste"].str.replace(rf"(.*{keyword})", keyword, regex=True)
     df["Intitulé du poste"] = df["Intitulé du poste"].str.replace(rf"({keyword}.*)", keyword, regex=True)
 
-
 df.to_csv("data_test1.csv")
