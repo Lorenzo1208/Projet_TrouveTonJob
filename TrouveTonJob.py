@@ -61,5 +61,4 @@ for keyword in keywords:
 
 df['Intitulé du poste'] = df['Intitulé du poste'].apply(lambda x: re.sub(r'[hf]/[hf]|[-\/()]', '', x))
 
-
 df.to_csv("data_test1.csv")
