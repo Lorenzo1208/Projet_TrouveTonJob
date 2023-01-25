@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import requests
 import unidecode
+import re
 
 url = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
 
