@@ -70,8 +70,9 @@ def main():
 
     df = try_download_json(url)
     df = clean_data(df)
-    
-    df.to_csv("data_test1.csv")
+
+    df.to_csv("data_clean.csv")
+
 
 if __name__ == '__main__':
     main()
