@@ -4,7 +4,10 @@ import numpy as np
 import requests
 import unidecode
 import re
+import locale
+from datetime import datetime
 
+locale.setlocale(locale.LC_ALL, 'fr_FR')
 
 def try_download_json(url:str) -> pd.DataFrame:
 
@@ -63,8 +66,8 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-# Tarik lignes 66 à .... réservées au nettoyage du fichier data_scrapping.csv #########################################################
 
+# Tarik lignes 66 à .... réservées au nettoyage du fichier data_scrapping.csv #########################################################
 def try_read_csv(file) -> pd.DataFrame:
 
     try:
@@ -75,15 +78,12 @@ def try_read_csv(file) -> pd.DataFrame:
         print(f"Erreur de lecture du csv - {file}")
         quit()
 
+
 def clean_data_scrapping(df:pd.DataFrame) -> pd.DataFrame:
 
-    df['Date de publication'] = df['Date de publication'].apply(lambda x : x.strip(' \n\r').removeprefix('Actualisé le ').removeprefix('Publié le ').split())
-
-    df['Date de publication'] = df['Date de publication'].apply(lambda x : pd.to_datetime(f"{x[2]}-{x[1]:02}-{x[0]:02}"))
+    df['Date de publication'] = df['Date de publication'].apply(lambda x : datetime.strptime(x.strip(' \n\r').removeprefix('Actualisé le ').removeprefix('Publié le '), "%d %B %Y"))
 
     return df
-
-
 
 
 def main():
