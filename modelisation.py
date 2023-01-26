@@ -1,21 +1,15 @@
 from TrouveTonJob import *
 
-# data
-import pandas as pd
-
 # Preprocessing
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler, RobustScaler, MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 
 # Pipeline and model
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import SGDRegressor
-from sklearn.naive_bayes import CategoricalNB, GaussianNB
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
-from sklearn.svm import SVC
 from sklearn.multioutput import MultiOutputRegressor
 
 # Score of models
@@ -33,7 +27,7 @@ X = df.drop(['Salaire minimum', 'Salaire maximum'], axis=1)
 y = df[['Salaire minimum', 'Salaire maximum']]
 
 # J'ai pas mis de simple imputer parce que ça me parait pas logique de mettre un nom de société au pif quand il y en a pas
-column_cat = ['lieu', 'Nom de la société', 'Type de contrat']
+column_cat = ['lieu', 'Nom de la société', 'Type de contrat', 'Intitulé du poste']
 transfo_cat = Pipeline([
     ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output = False))
 ])
@@ -51,13 +45,14 @@ transfo_text = Pipeline([
 preparation = ColumnTransformer([
         ('data_cat', transfo_cat , column_cat),
         ('data_num', transfo_num , column_num),
-        ('data_artist', transfo_text , 'Intitulé du poste'),
         ('data_track', transfo_text , 'competences')
 ])
 
 model = MultiOutputRegressor(SGDRegressor(max_iter=100000))
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
+
+print(f"X_train = {X_train.shape}\nX_test = {X_test.shape}")
 
 pipe_model = Pipeline([('preparation', preparation),
                         ('model',model)])
