@@ -75,29 +75,13 @@ def try_read_csv(file) -> pd.DataFrame:
         print(f"Erreur de lecture du csv - {file}")
         quit()
 
-def clean_data_scrapping(df2:pd.DataFrame) -> pd.DataFrame:
+def clean_data_scrapping(df:pd.DataFrame) -> pd.DataFrame:
 
-    # Check if salary is in monthly, if yes, multiply by 12
-    df2['Salaires'] = df2['Salaires'].apply(lambda x: x['Salaires'].replace("Mensuel de ", "").replace(" Euros à "," - ").replace(" Euros sur 12 mois", "") if 'Mensuel' in x['Salaires'] else x['Salaires'], axis=1)
+    df['Date de publication'] = df['Date de publication'].apply(lambda x : x.strip(' \n\r').removeprefix('Actualisé le ').removeprefix('Publié le ').split())
 
-    # Extract minimum and maximum salary values
-    df2[['salary_min', 'salary_max']] = df2['Salaires'].str.extract('(?P<salary_min>\d+[.,]?\d+)[ -]+(?P<salary_max>\d+[.,]?\d+)', expand=True)
+    df['Date de publication'] = df['Date de publication'].apply(lambda x : pd.to_datetime(f"{x[2]}-{x[1]:02}-{x[0]:02}"))
 
-    # convert columns to numeric
-    df2[['salary_min', 'salary_max']] = df2[['salary_min', 'salary_max']].apply(pd.to_numeric)
-
-    # multiply by 12 if salary is monthly
-    df2[['salary_min', 'salary_max']] = df2.apply(lambda x: x[['salary_min', 'salary_max']]*12 if 'Mensuel' in x['Salaires'] else x[['salary_min', 'salary_max']], axis=1)
-
-    # Replace NaN values with None
-    df2.replace(np.nan, '', inplace=True)
-
-    # Replace non-numeric values with None
-    df2.replace(r'[^\d.,]+', '', regex=True, inplace=True)
-
-    
-
-    return df2
+    return df
 
 
 
@@ -106,14 +90,14 @@ def main():
 
     url = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
 
-    df = try_download_json(url)
-    df = clean_data(df)
+    #df = try_download_json(url)
+    #df = clean_data(df)
 
     df2 = try_read_csv('data_scrapping.csv')
     df2 = clean_data_scrapping(df2)
 
-    df.to_csv("data_clean.csv")
-    df2.to_csv("data_scrapping_clean.csv")
+    #df.to_csv("data_clean.csv")
+    df2.to_csv("data_scrapping_clean.csv", index=False)
 
 if __name__ == '__main__':
     main()
