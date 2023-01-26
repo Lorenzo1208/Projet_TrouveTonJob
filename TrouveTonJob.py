@@ -63,6 +63,44 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+# Tarik lignes 66 à .... réservées au nettoyage du fichier data_scrapping.csv #########################################################
+
+def try_read_csv(file) -> pd.DataFrame:
+
+    try:
+        df2 = pd.read_csv(file)
+        return df2
+
+    except:
+        print(f"Erreur de lecture du csv - {file}")
+        quit()
+
+def clean_data_scrapping(df2:pd.DataFrame) -> pd.DataFrame:
+
+    # Check if salary is in monthly, if yes, multiply by 12
+    df2['Salaires'] = df2['Salaires'].apply(lambda x: x['Salaires'].replace("Mensuel de ", "").replace(" Euros à "," - ").replace(" Euros sur 12 mois", "") if 'Mensuel' in x['Salaires'] else x['Salaires'], axis=1)
+
+    # Extract minimum and maximum salary values
+    df2[['salary_min', 'salary_max']] = df2['Salaires'].str.extract('(?P<salary_min>\d+[.,]?\d+)[ -]+(?P<salary_max>\d+[.,]?\d+)', expand=True)
+
+    # convert columns to numeric
+    df2[['salary_min', 'salary_max']] = df2[['salary_min', 'salary_max']].apply(pd.to_numeric)
+
+    # multiply by 12 if salary is monthly
+    df2[['salary_min', 'salary_max']] = df2.apply(lambda x: x[['salary_min', 'salary_max']]*12 if 'Mensuel' in x['Salaires'] else x[['salary_min', 'salary_max']], axis=1)
+
+    # Replace NaN values with None
+    df2.replace(np.nan, '', inplace=True)
+
+    # Replace non-numeric values with None
+    df2.replace(r'[^\d.,]+', '', regex=True, inplace=True)
+
+    
+
+    return df2
+
+
+
 
 def main():
 
@@ -71,8 +109,11 @@ def main():
     df = try_download_json(url)
     df = clean_data(df)
 
-    df.to_csv("data_clean.csv")
+    df2 = try_read_csv('data_scrapping.csv')
+    df2 = clean_data_scrapping(df2)
 
+    df.to_csv("data_clean.csv")
+    df2.to_csv("data_scrapping_clean.csv")
 
 if __name__ == '__main__':
     main()
