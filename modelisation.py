@@ -10,8 +10,7 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 from data_cleaning import *
 
-df = try_download_json(URL)
-df = clean_data(df)
+df = get_dataset_1()
 
 df.dropna(subset=['Salaire minimum', 'Salaire maximum'], inplace=True)
 
