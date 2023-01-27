@@ -145,6 +145,12 @@ def main():
     
     # Imputation à faire sur Type de poste et lieu en prenant la valeur qui revient le plus
     df3 = pd.concat([df,df2],axis=0)
+    # Imputation Type de contrat fillna with cdi et lieu with paris
+    df3['Type de contrat'] = df3['Type de contrat'].replace('',np.nan,regex=True)
+    df3['Type de contrat'] = df3['Type de contrat'].replace(np.nan,'cdi',regex=True) # Remplace le blank avec nan
+    # df3['Type de contrat'] = df3['Type de contrat'].fillna("cdi")
+    df3['lieu'] = df3['lieu'].replace('',"paris",regex=True) # Remplace le blank avec nan
+    
     df3 = df3.reset_index(drop=True)
     print(df2.shape)
     df.to_csv("data_clean.csv", index=False)
