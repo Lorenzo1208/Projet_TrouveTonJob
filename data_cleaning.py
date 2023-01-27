@@ -10,8 +10,6 @@ import unidecode
 
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
-URL = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
-
 
 def try_download_json(url:str) -> pd.DataFrame:
 
@@ -133,27 +131,33 @@ def clean_data_scrapping(df:pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+URL = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
+
+DATASET_1 = clean_data_1(try_download_json(URL))
+DATASET_2 = clean_data_scrapping(try_read_csv('data_scrapping.csv'))
+DATASET_3 = pd.concat([DATASET_1, DATASET_2])
+
+
 def get_dataset_1():
 
-    return clean_data_1(try_download_json(URL))
+    return pd.DataFrame(DATASET_1)
 
 
-def get_dataset_scrapping():
+def get_dataset_2():
 
-    return clean_data_scrapping(try_read_csv('data_scrapping.csv'))
+    return pd.DataFrame(DATASET_2)
+
+
+def get_dataset_3():
+
+    return pd.DataFrame(DATASET_3)
 
 
 def main():
 
-    df1 = get_dataset_1()
-
-    df2 = get_dataset_scrapping()
-
-    df3 = pd.concat([df1, df2])
-
-    df1.to_csv("dataset_1.csv", index=False)
-    df2.to_csv("dataset_2.csv", index=False)
-    df3.to_csv("dataset_3.csv", index=False)
+    DATASET_1.to_csv("dataset_1.csv", index=False)
+    DATASET_2.to_csv("dataset_2.csv", index=False)
+    DATASET_3.to_csv("dataset_3.csv", index=False)
 
 
 if __name__ == '__main__':
