@@ -7,7 +7,7 @@ import re
 import locale
 from datetime import datetime
 locale.setlocale(locale.LC_ALL,'fr_FR.UTF-8')
-
+# Branch Tarik
 def try_download_json(url:str) -> pd.DataFrame:
 
     try:
