@@ -62,8 +62,6 @@ def clean_data_1(df:pd.DataFrame) -> pd.DataFrame:
             ([n for n in noms_ville for i in x.replace(' - ', ',').replace('-', ' ').split(',') if n in i] + [x.replace('-', ' ')])[0]
         )
 
-    df['competences'] = df['competences'].apply(lambda x : x.replace(',', ' '))
-
     #remplace si data analyst dans vavlue par data analyste etc
     terms_to_replace = {'analyst': 'data analyst', 'datascientist': 'data scientist', 'data engineer': 'ingenieur','conultant/analyste': 'consultant/analyste','2018788': '',
                         'developer': 'developpeur','full stacke': 'developpeur','global technical seo manager': 'manager','engineer': 'ingenieur','lead': 'chef','full': 'developpeur','analyste': 'data analyst','product': 'chef de projet'}
@@ -135,7 +133,14 @@ URL = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/da
 
 DATASET_1 = clean_data_1(try_download_json(URL))
 DATASET_2 = clean_data_scrapping(try_read_csv('data_scrapping.csv'))
-DATASET_3 = pd.concat([DATASET_1, DATASET_2])
+
+df1 = pd.DataFrame(DATASET_1)
+df2 = pd.DataFrame(DATASET_2)
+
+df1['origine'] = "patrick"
+df2['origine'] = "tarik"
+
+DATASET_3 = pd.concat([df1, df2])
 
 
 def get_dataset_1():
