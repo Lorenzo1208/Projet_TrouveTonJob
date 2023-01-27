@@ -6,7 +6,8 @@ import unidecode
 import re
 import locale
 from datetime import datetime
-locale.setlocale(locale.LC_ALL,'fr_FR.UTF-8')
+
+locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 def try_download_json(url:str) -> pd.DataFrame:
 
@@ -65,8 +66,8 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-# Tarik lignes 66 à .... réservées au nettoyage du fichier data_scrapping.csv #########################################################
 
+# Tarik lignes 66 à .... réservées au nettoyage du fichier data_scrapping.csv #########################################################
 def try_read_csv(file) -> pd.DataFrame:
 
     try:
@@ -75,6 +76,7 @@ def try_read_csv(file) -> pd.DataFrame:
     except:
         print(f"Erreur de lecture du csv - {file}")
         quit()
+
 
 def clean_data_scrapping(df2:pd.DataFrame) -> pd.DataFrame:
 
@@ -156,5 +158,7 @@ def main():
     df.to_csv("data_clean.csv", index=False)
     df2.to_csv("data_scrapping_clean.csv", index=False)
     df3.to_csv("data_finale_clean.csv", index=False)
+
+
 if __name__ == '__main__':
     main()
