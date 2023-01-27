@@ -4,7 +4,9 @@ import numpy as np
 import requests
 import unidecode
 import re
-
+import locale
+from datetime import datetime
+locale.setlocale(locale.LC_ALL,'fr_FR.UTF-8')
 
 def try_download_json(url:str) -> pd.DataFrame:
 
@@ -22,17 +24,20 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 
     liste_salaires = df['lieu'].apply(lambda x : x[1] if len(x) > 1 else '')
 
-    df['lieu'] = df['lieu'].apply(lambda x : x[0])
+    df['lieu'] = df['lieu'].apply(lambda x : unidecode.unidecode(x[0]))
+
     df['Nom de la société'] = df['Type de poste'].apply(lambda x : x[2] if len(x) > 2 else '')
     df['Type de contrat'] = df['Type de poste'].apply(lambda x : x[7].split(' - ')[0] if len(x) > 7 else '')
     df.drop(columns='Type de poste', inplace=True)
 
     df = df.apply(lambda c : c.apply(lambda x : ','.join([s.strip("\n ").lower() for s in (x.split(',') if type(x) != list else x)])))
 
-    liste_dates = df['Date de publication'].apply(lambda x: '0 j' if x.find('heures') != -1 else x.removeprefix('postée il y a ').replace('postée hier', '1 j').strip('iours'))
+    liste_dates = df['Date de publication'].apply(lambda x: '0 j' if x.find('heures') != -1 else x.removeprefix('postée il y a ').replace('postée hier', '1 j').strip('iorsu'))
 
-    df['Date de publication'] = liste_dates.apply(lambda x : pd.to_datetime("2023-01-15") - pd.DateOffset(months=int(x.split()[0])) if x.split()[1] == 'm' else pd.to_datetime("2023-01-15") - pd.DateOffset(days=int(x.split()[0])))
-    df['Date de publication'] = pd.to_datetime(df['Date de publication'])
+    df['Date de publication'] = pd.to_datetime(liste_dates.apply(
+        lambda x :
+            pd.to_datetime("2023-01-15") - (pd.DateOffset(months=int(x.split()[0])) if x.split()[1] == 'm' else pd.DateOffset(days=int(x.split()[0])))
+        ))
 
     df['Salaire minimum'] = liste_salaires.apply(lambda x : float(x.split(' - ')[0].strip(' €\n').replace('.', '').replace(',', '.')) if x != '' else np.nan)
     df['Salaire maximum'] = liste_salaires.apply(lambda x : float(x.split(' - ')[1].strip(' €/an\n' + string.ascii_letters).replace('.', '').replace(',', '.')) if x != '' else np.nan)
@@ -67,7 +72,6 @@ def try_read_csv(file) -> pd.DataFrame:
     try:
         df2 = pd.read_csv(file, index_col=0)
         return df2
-
     except:
         print(f"Erreur de lecture du csv - {file}")
         quit()
@@ -75,29 +79,52 @@ def try_read_csv(file) -> pd.DataFrame:
 def clean_data_scrapping(df2:pd.DataFrame) -> pd.DataFrame:
 
     ############################## Salaires ##############################################################################################################################
-    df2[['Salaires minimum', 'Salaires maximum']] = df2.loc[df2['Salaires'].str.count('\d')>3,'Salaires'].str.extract(r'(\d+[,.]\d+|\d+).*?(\d+[,.]\d+|\d+)', expand=True)
+    df2[['Salaire minimum', 'Salaire maximum']] = df2.loc[df2['Salaires'].str.count('\d')>3,'Salaires'].str.extract(r'(\d+[,.]\d+|\d+).*?(\d+[,.]\d+|\d+)', expand=True)
 
-    # Extract minimum and maximum salary values
-    df2[['salary_min', 'salary_max']] = df2['Salaires'].str.extract('(?P<salary_min>\d+[.,]?\d+)[ -]+(?P<salary_max>\d+[.,]?\d+)', expand=True)
 
-    df2[['Salaires minimum', 'Salaires maximum']] = df2[['Salaires minimum', 'Salaires maximum']].apply(lambda x: x.str.replace(',', '.').astype(float))
+    df2[['Salaire minimum', 'Salaire maximum']] = df2[['Salaire minimum', 'Salaire maximum']].apply(lambda x: x.str.replace(',', '.').astype(float))
     # les salaires avec k€ 
-    df2['Salaires minimum'] = df2['Salaires minimum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
-    df2['Salaires maximum'] = df2['Salaires maximum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
+    df2['Salaire minimum'] = df2['Salaire minimum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
+    df2['Salaire maximum'] = df2['Salaire maximum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
     # les salaires mensuels
-    df2['Salaires minimum'] = df2['Salaires minimum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
-    df2['Salaires maximum'] = df2['Salaires maximum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
+    df2['Salaire minimum'] = df2['Salaire minimum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
+    df2['Salaire maximum'] = df2['Salaire maximum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
 
     #replace 0 with ''
-    df2['Salaires maximum'] = df2['Salaires maximum'].apply(lambda x: None if x == 0 else x)
+    df2['Salaire maximum'] = df2['Salaire maximum'].apply(lambda x: None if x == 0 else x)
 
-    # Replace NaN values with None
-    df2.replace(np.nan, '', inplace=True)
+    ###########################   Type de contrat   ##########################################################################################################################################
 
-    # Replace non-numeric values with None
-    df2.replace(r'[^\d.,]+', '', regex=True, inplace=True)
+    df2['Type de contrat'] = df2['Type de contrat'].apply(lambda x : str(x).split('-')[0].lower())
 
-    
+    ###########################   lieu   ##########################################################################################################################################
+
+    df2['lieu'] = df2['lieu'].apply(lambda x: re.sub(r'[^a-zA-Z]', ' ', x).strip().lower())
+
+    ###########################   Intitulé de poste   ##########################################################################################################################################
+
+    df2['Intitulé du poste'] = df2['Intitulé du poste'].apply(lambda x: re.sub(r'[hf]/[hf]|[-\/()]', '', x.lower()))
+    keywords = ["stage","business analyst","analyste fonctionnel","architecte","apprenti","data ingenieur","data ingénieur", "data engineer","data analyst","data scientist","consultant","ingenieur","chef de projet","concepteur","alternance",
+                    "technical leader","technicien","responsable","référent","expert","developpeur","specialiste","referent","manager","postdoctorant","internship",
+                    "data protection officer","data privacy officer", "chargé de crm et data  marketing",
+                    " product owner data média","data officer "]
+
+    for keyword in keywords:
+        df2["Intitulé du poste"] = df2["Intitulé du poste"].str.replace(rf"(.*{keyword})", keyword, regex=True)
+        df2["Intitulé du poste"] = df2["Intitulé du poste"].str.replace(rf"({keyword}.*)", keyword, regex=True)
+
+    ########################## Date ################################################################################################
+
+    df2['Date de publication'] = df2['Date de publication'].str.replace('Actualisé le', '').str.replace('Publié le', '')
+    df2['Date de publication'] = df2['Date de publication'].apply(lambda x: datetime.strptime(x.strip(),'%d %B %Y').strftime("%Y-%m-%d"))
+
+    ########################### Nom de la société ################################################################################
+
+    df2['Nom de la société'] = df2['Nom de la société'].str.lower()
+
+    ########################## df2 dropna and drop 'Salaires' et colonne index duplicat ##############################################
+    df2.drop('Salaires', axis=1, inplace=True)
+    df2.dropna(how='any', inplace=True)
 
     return df2
 
@@ -111,7 +138,7 @@ def main():
     df = try_download_json(url)
     df = clean_data(df)
 
-    df2 = pd.read_csv('data_scrapping.csv')
+    df2 = try_read_csv('data_scrapping.csv')
     df2 = clean_data_scrapping(df2)
     # jeu de données final df1+df2
     df = df.dropna().reset_index(drop=True)
