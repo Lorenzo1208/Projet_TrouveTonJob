@@ -70,7 +70,7 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 def try_read_csv(file) -> pd.DataFrame:
 
     try:
-        df2 = pd.read_csv(file)
+        df2 = pd.read_csv(file, index_col=0)
         return df2
     except:
         print(f"Erreur de lecture du csv - {file}")
@@ -79,19 +79,19 @@ def try_read_csv(file) -> pd.DataFrame:
 def clean_data_scrapping(df2:pd.DataFrame) -> pd.DataFrame:
 
     ############################## Salaires ##############################################################################################################################
-    df2[['Salaires minimum', 'Salaires maximum']] = df2.loc[df2['Salaires'].str.count('\d')>3,'Salaires'].str.extract(r'(\d+[,.]\d+|\d+).*?(\d+[,.]\d+|\d+)', expand=True)
+    df2[['Salaire minimum', 'Salaire maximum']] = df2.loc[df2['Salaires'].str.count('\d')>3,'Salaires'].str.extract(r'(\d+[,.]\d+|\d+).*?(\d+[,.]\d+|\d+)', expand=True)
 
 
-    df2[['Salaires minimum', 'Salaires maximum']] = df2[['Salaires minimum', 'Salaires maximum']].apply(lambda x: x.str.replace(',', '.').astype(float))
+    df2[['Salaire minimum', 'Salaire maximum']] = df2[['Salaire minimum', 'Salaire maximum']].apply(lambda x: x.str.replace(',', '.').astype(float))
     # les salaires avec k€ 
-    df2['Salaires minimum'] = df2['Salaires minimum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
-    df2['Salaires maximum'] = df2['Salaires maximum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
+    df2['Salaire minimum'] = df2['Salaire minimum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
+    df2['Salaire maximum'] = df2['Salaire maximum'].apply(lambda x: x*1000 if len(str(x).split(".")[0]) == 2 else x)
     # les salaires mensuels
-    df2['Salaires minimum'] = df2['Salaires minimum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
-    df2['Salaires maximum'] = df2['Salaires maximum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
+    df2['Salaire minimum'] = df2['Salaire minimum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
+    df2['Salaire maximum'] = df2['Salaire maximum'].apply(lambda x: x*12 if len(str(x).split(".")[0]) == 4 else x)
 
     #replace 0 with ''
-    df2['Salaires maximum'] = df2['Salaires maximum'].apply(lambda x: None if x == 0 else x)
+    df2['Salaire maximum'] = df2['Salaire maximum'].apply(lambda x: None if x == 0 else x)
 
     ###########################   Type de contrat   ##########################################################################################################################################
 
@@ -140,9 +140,15 @@ def main():
 
     df2 = try_read_csv('data_scrapping.csv')
     df2 = clean_data_scrapping(df2)
-
+    # jeu de données final df1+df2
+    df = df.dropna().reset_index(drop=True)
+    
+    # Imputation à faire sur Type de poste et lieu en prenant la valeur qui revient le plus
+    df3 = pd.concat([df,df2],axis=0)
+    df3 = df3.reset_index(drop=True)
+    print(df2.shape)
     df.to_csv("data_clean.csv", index=False)
     df2.to_csv("data_scrapping_clean.csv", index=False)
-
+    df3.to_csv("data_finale_clean.csv", index=False)
 if __name__ == '__main__':
     main()
