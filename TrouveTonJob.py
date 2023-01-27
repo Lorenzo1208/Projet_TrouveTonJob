@@ -9,6 +9,8 @@ from datetime import datetime
 
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
+URL = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
+
 def try_download_json(url:str) -> pd.DataFrame:
 
     try:
@@ -25,15 +27,15 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 
     liste_salaires = df['lieu'].apply(lambda x : x[1] if len(x) > 1 else '')
 
-    df['lieu'] = df['lieu'].apply(lambda x : unidecode.unidecode(x[0]))
+    df['lieu'] = df['lieu'].apply(lambda x : x[0])
 
     df['Nom de la société'] = df['Type de poste'].apply(lambda x : x[2] if len(x) > 2 else '')
     df['Type de contrat'] = df['Type de poste'].apply(lambda x : x[7].split(' - ')[0] if len(x) > 7 else '')
     df.drop(columns='Type de poste', inplace=True)
 
-    df = df.apply(lambda c : c.apply(lambda x : ','.join([s.strip("\n ").lower() for s in (x.split(',') if type(x) != list else x)])))
+    df = df.apply(lambda c : c.apply(lambda x : ','.join([unidecode.unidecode(s).strip("\n ").lower() for s in (x.split(',') if type(x) != list else x)])))
 
-    liste_dates = df['Date de publication'].apply(lambda x: '0 j' if x.find('heures') != -1 else x.removeprefix('postée il y a ').replace('postée hier', '1 j').strip('iorsu'))
+    liste_dates = df['Date de publication'].apply(lambda x: '0 j' if x.find('heures') != -1 else x.removeprefix('postee il y a ').replace('postee hier', '1 j').strip('iorsu'))
 
     df['Date de publication'] = pd.to_datetime(liste_dates.apply(
         lambda x :
@@ -50,10 +52,12 @@ def clean_data(df:pd.DataFrame) -> pd.DataFrame:
             ([n for n in noms_ville for i in x.replace(' - ', ',').replace('-', ' ').split(',') if n in i] + [x.replace('-', ' ')])[0]
         )
 
+    df['competences'] = df['competences'].apply(lambda x : x.replace(',', ' '))
+
     #remplace si data analyst dans vavlue par data analyste etc
-    terms_to_replace = {'analyst': 'data analyst', 'datascientist': 'data scientist', 'data engineer': 'ingénieur','conultant/analyste': 'consultant/analyste','2018788': '',
-                        'developer': 'developpeur','full stacke': 'developpeur','global technical seo manager': 'manager','engineer': 'ingenieur','lead': 'chef','full': 'developpeur','ingénieur': 'ingenieur','analyste': 'data analyst','product': 'chef de projet'}
-    df["Intitulé du poste"] = df["Intitulé du poste"].apply(lambda x: ' '.join([terms_to_replace.get(term, term) for term in unidecode.unidecode(x).split()]))
+    terms_to_replace = {'analyst': 'data analyst', 'datascientist': 'data scientist', 'data engineer': 'ingenieur','conultant/analyste': 'consultant/analyste','2018788': '',
+                        'developer': 'developpeur','full stacke': 'developpeur','global technical seo manager': 'manager','engineer': 'ingenieur','lead': 'chef','full': 'developpeur','analyste': 'data analyst','product': 'chef de projet'}
+    df["Intitulé du poste"] = df["Intitulé du poste"].apply(lambda x: ' '.join([terms_to_replace.get(term, term) for term in x.split()]))
 
     keywords = ["stage","business analyst","analyste fonctionnel","architecte","apprenti","data ingenieur","data ingénieur", "data engineer","data analyst","data scientist","consultant","ingenieur","chef de projet","concepteur","alternance",
                 "technical leader","technicien","responsable","référent","expert","developpeur","specialiste","referent","manager","postdoctorant","internship"]
@@ -135,9 +139,7 @@ def clean_data_scrapping(df2:pd.DataFrame) -> pd.DataFrame:
 
 def main():
 
-    url = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
-
-    df = try_download_json(url)
+    df = try_download_json(URL)
     df = clean_data(df)
 
     df2 = try_read_csv('data_scrapping.csv')
