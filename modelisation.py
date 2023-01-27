@@ -1,20 +1,14 @@
-from TrouveTonJob import *
-
-# Preprocessing
-from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
-
-# Pipeline and model
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
 from sklearn.linear_model import SGDRegressor
-from sklearn.multioutput import MultiOutputRegressor
-
-# Score of models
 from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+from sklearn.multioutput import MultiOutputRegressor
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
+from data_cleaning import *
 
 df = try_download_json(URL)
 df = clean_data(df)
