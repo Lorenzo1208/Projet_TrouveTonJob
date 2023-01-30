@@ -25,27 +25,32 @@ else:
 
 ##########################################################################################################################
 st.header('Compétences les plus recherchées')
-top_n_skills = skills_best_n(df,10)
+n = st.select_slider("Choisissez le nombre de compétences à afficher", options=[3, 5, 7, 10, 12, 15])
+top_n_skills = skills_best_n(df, n)
 top_n_skills_pie_chart = pie_chart(top_n_skills,"counts","index",f"<b>Les {len(top_n_skills)} compétences les plus demandées en Ile-de-france</b>")
 st.plotly_chart(top_n_skills_pie_chart)
 ##########################################################################################################################
 st.header('Entreprises qui recrutent le plus')
-top_n_companies = entreprises_best_n(df, 10)
+n = st.select_slider("Choisissez le nombre d'entreprises à afficher", options=[3, 5, 7, 10, 12, 15])
+top_n_companies = entreprises_best_n(df, n)
 top_n_companies_plot = bar_plot_asc(top_n_companies, 'counts', 'index', 'index', 'index', f"Top {len(top_n_companies)} Entreprises qui recrutent le plus")
 st.plotly_chart(top_n_companies_plot)
 ##########################################################################################################################
 st.header('Postes les mieux payés')
-top_n_jobs = jobs_best_n(df,10)
+n = st.select_slider("Choisissez le nombre de postes à afficher", options=[3, 5, 7, 10])
+top_n_jobs = jobs_best_n(df, n)
 top_n_jobs_barplot = bar_plot_asc(top_n_jobs,"Intitulé du poste","salaire_moyen",top_n_jobs["salaire_moyen"],"salaire_moyen",f"<b>Les {len(top_n_jobs)} postes les mieux rémunérées en Ile-de-france</b>")
 st.plotly_chart(top_n_jobs_barplot)
 ##########################################################################################################################
 st.header('Type de contrats')
-top_n_contrat = contrat_best_n(df,10)
+n = st.select_slider("Choisissez le nombre de contrats à afficher", options=[1,2,3,4,5])
+top_n_contrat = contrat_best_n(df, n)
 top_n_contrat_paid_pie_chart = pie_chart(top_n_contrat,"counts","index",f"<b>La répartition par types de contrat en Ile-de-france</b>")
 st.plotly_chart(top_n_contrat_paid_pie_chart)
 ##########################################################################################################################
 st.header('Compétences les mieux payées')
-top_n_skills_paid = skills_best_n_paid(df,10)
+n = st.select_slider("Choisissez le nombre de contrats à afficher", options=[5, 7, 10, 12, 15])
+top_n_skills_paid = skills_best_n_paid(df,n)
 top_n_skills_paid_pie_chart = pie_chart(top_n_skills_paid,"Salaire_mean","competences",f"<b>Les {len(top_n_skills_paid)} compétences les mieux rémunérées en Ile-de-france</b>")
 st.plotly_chart(top_n_skills_paid_pie_chart)
 ##########################################################################################################################
