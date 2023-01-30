@@ -30,7 +30,7 @@ from sklearn.preprocessing import LabelEncoder
 from plotly.offline import init_notebook_mode
 
 # notion importante pour plotly il faut lui dire dans quel env il doit afficher les graphiques
-Default_renderer: 'browser'
+# Default_renderer: 'browser'
 # Available renderers:
 #     ['plotly_mimetype', 'jupyterlab', 'nteract', 'vscode',
 #      'notebook', 'notebook_connected', 'kaggle', 'azure', 'colab',
@@ -171,7 +171,7 @@ def contrat_best_n(df= pd.DataFrame(), num_skills=int()):
 #         raise ValueError("Invalid method. Choose from 'pearson', 'kendall', 'spearman'.")
 #   df = df.drop(columns='origine')
 #   df['Date de publication'] = pd.to_datetime(df['Date de publication'])
-def matrice_corr(df= pd.DataFrame(),methode="pearson"):
+def matrice_corr(df= pd.DataFrame(),methode=str()):
   df['competences'] = df['competences'].astype(str)
   df['competences'] = df['competences'].apply(lambda x : x.strip())
   if methode not in ['pearson', 'kendall', 'spearman']:
