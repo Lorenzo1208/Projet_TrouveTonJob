@@ -132,7 +132,7 @@ def clean_data_scrapping(df:pd.DataFrame) -> pd.DataFrame:
 URL = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
 
 DATASET_1 = clean_data_1(try_download_json(URL))
-DATASET_2 = clean_data_scrapping(try_read_csv('https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/dataset_2.csv'))
+DATASET_2 = clean_data_scrapping(try_read_csv('https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data_scrapping.csv'))
 
 df1 = pd.DataFrame(DATASET_1)
 df2 = pd.DataFrame(DATASET_2)

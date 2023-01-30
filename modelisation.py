@@ -1,7 +1,10 @@
+import time
+
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import SGDRegressor, LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.linear_model import (ElasticNet, Lasso, LinearRegression, Ridge,
+                                  SGDRegressor)
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputRegressor
@@ -9,7 +12,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 from data_cleaning import *
-import time
 
 start_time = time.time()
 
