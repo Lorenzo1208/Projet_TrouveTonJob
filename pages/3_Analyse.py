@@ -55,7 +55,20 @@ top_n_skills_paid_pie_chart = pie_chart(top_n_skills_paid,"Salaire_mean","compet
 st.plotly_chart(top_n_skills_paid_pie_chart)
 ##########################################################################################################################
 st.header('Heatmap de la Matrice de corrélation')
-mat_corr = matrice_corr(df,"pearson")
+
+option = st.selectbox(
+     'Quelle méthode voulez-vous choisir ?',
+     ('pearson', 'kendall', 'spearman'))
+st.write('Vous avez choisi la méthode', option)
+
+if option == 'pearson':
+    method = "pearson"
+elif option == 'kendall':
+    method = "kendall"
+else:
+    method = "spearman"
+    
+mat_corr = matrice_corr(df,method)
 corr_heatmap= heatmap(mat_corr[0],f"<b>Matrice de corrélation avec la méthode {mat_corr[1]} </b>")
 st.plotly_chart(corr_heatmap)
 ##########################################################################################################################
