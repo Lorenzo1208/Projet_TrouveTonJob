@@ -20,7 +20,7 @@ def try_download_json(url:str) -> pd.DataFrame:
 
     except:
         print(f"Erreur de chargement du lien - {url}")
-        quit()
+        #quit()
 
 
 def try_read_csv(file) -> pd.DataFrame:
@@ -30,7 +30,7 @@ def try_read_csv(file) -> pd.DataFrame:
 
     except:
         print(f"Erreur de lecture du csv - {file}")
-        quit()
+        #quit()
 
 
 def clean_data_1(df:pd.DataFrame) -> pd.DataFrame:
@@ -132,7 +132,7 @@ def clean_data_scrapping(df:pd.DataFrame) -> pd.DataFrame:
 URL = "https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/data.json"
 
 DATASET_1 = clean_data_1(try_download_json(URL))
-DATASET_2 = clean_data_scrapping(try_read_csv('data_scrapping.csv'))
+DATASET_2 = clean_data_scrapping(try_read_csv('https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/dataset_2.csv'))
 
 df1 = pd.DataFrame(DATASET_1)
 df2 = pd.DataFrame(DATASET_2)
