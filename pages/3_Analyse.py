@@ -1,30 +1,7 @@
 import streamlit as st
 from analyse import *
-from streamlit_option_menu import option_menu 
 
 st.title("Analyse")
-
-with st.sidebar:
-    selected = option_menu(
-        menu_title=None,
-        options=["Compétences les plus recherchées","Entreprises qui recrutent le plus", "Postes les mieux payés", "Type de contrats","Compétences les mieux payées","Heatmap de la Matrice de corrélation"],
-        icons=["clipboard-data"],
-        menu_icon="bars",
-        default_index=0,
-    )
-    
-if selected == "Compétences les plus recherchées":
-    st.title(f"{selected}")
-if selected == "Entreprises qui recrutent le plus":
-    st.title(f"{selected}")
-if selected == "Postes les mieux payés":
-    st.title(f"{selected}")
-if selected == "Type de contrats":
-    st.title(f"{selected}")
-if selected == "Compétences les mieux payées":
-    st.title(f"{selected}")
-if selected == "Heatmap de la Matrice de corrélation":
-    st.title(f"{selected}")
 
 df1 = pd.read_csv('dataset_1.csv')
 df2 = pd.read_csv('dataset_2.csv')
