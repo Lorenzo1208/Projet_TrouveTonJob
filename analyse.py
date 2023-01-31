@@ -166,7 +166,7 @@ def contrat_best_n(df= pd.DataFrame(), num_skills=int()):
 """##Analyse multivariée"""
 
 def matrice_corr(df= pd.DataFrame(),methode="pearson"):
-  df['competences'].apply(lambda x : x.strip())
+  df['competences'].apply(lambda x : x)
   if methode not in ['pearson', 'kendall', 'spearman']:
         raise ValueError("Invalid method. Choose from 'pearson', 'kendall', 'spearman'.")
   df = df.drop(columns='origine')
