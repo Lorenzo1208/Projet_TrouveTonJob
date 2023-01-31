@@ -2,7 +2,12 @@ import streamlit as st
 import numpy as np
 import altair as alt
 import pandas as pd
-from st_pages import add_page_title
+from st_pages import Page, add_page_title, show_pages
+import pandas_profiling
+from streamlit_pandas_profiling import st_profile_report
+
+
+
 
 st.set_page_config(layout="wide"),
 with open("assets/style.css") as style:
@@ -10,9 +15,9 @@ with open("assets/style.css") as style:
 
 
 add_page_title("Analyse des donées ")
-dataset_1 = pd.read_csv('dataset_1.csv', index_col=0)
-dataset_2 = pd.read_csv('dataset_2.csv', index_col=0)
-dataset_3 = pd.read_csv('dataset_3.csv', index_col=0)
+dataset_1 = pd.read_csv('dataset_1.csv')
+dataset_2 = pd.read_csv('dataset_2.csv')
+dataset_3 = pd.read_csv('dataset_3.csv')
 
 video_file = open('assets/Webscrapping_exemple.mp4', 'rb')
 video_bytes = video_file.read()
@@ -60,10 +65,19 @@ option = st.selectbox(
 st.write('Vous avez choisi le ', option)
 
 if option == 'dataset_1':
-    st.write(dataset_1)
+    st.write(type(dataset_1))
+    pr = dataset_1.spp.profile_report()
+    st_profile_report(pr)
+    #st.write(dataset_1)
 elif option == 'dataset_2':
-    st.write(dataset_2)
+    
+    pr = dataset_2.spp.profile_report()
+    st_profile_report(pr)
+    #st.write(dataset_2)
 else:
-    st.write(dataset_3)
+     
+    pr = dataset_3.spp.profile_report()
+    st_profile_report(pr)
+    #st.write(dataset_3)
 
 st.write("This is just a sample page!")

@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import streamlit as st
 from st_pages import Page, add_page_title, show_pages
 st.set_page_config(layout="wide"),
