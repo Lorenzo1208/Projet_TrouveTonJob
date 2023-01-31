@@ -85,7 +85,7 @@ df3.head()
 def pie_chart(df_input,values,names,titre='Titre du graph'):
   fig = px.pie(df_input, values=values, names=names )
   fig.update_layout(title_text=titre, title_x=0.5)
-  res = fig.show()
+  res = fig
   return res
 
 """###Horizontale barplot"""
@@ -96,7 +96,7 @@ def bar_plot_asc(df_inpput,val_x,val_y,hover_name,color, titre='Titre du graphiq
   fig = px.bar(df_inpput, x=val_x, y=val_y, hover_name=hover_name , color=color)
   fig.update_layout( yaxis={'categoryorder': 'total ascending'})
   fig.update_layout(title_text=titre, title_x=0.5)
-  res = fig.show()
+  res = fig
   return res
 
 """# Les compétences les plus recherchées"""
@@ -171,7 +171,7 @@ def contrat_best_n(df= pd.DataFrame(), num_skills=int()):
 """##Analyse multivariée"""
 
 def matrice_corr(df= pd.DataFrame(),methode="pearson"):
-  df['competences'].apply(lambda x : x.strip())
+  df['competences'].apply(lambda x : x)
   if methode not in ['pearson', 'kendall', 'spearman']:
         raise ValueError("Invalid method. Choose from 'pearson', 'kendall', 'spearman'.")
   df = df.drop(columns='origine')
@@ -198,7 +198,9 @@ def matrice_corr(df= pd.DataFrame(),methode="pearson"):
 def heatmap(corr_mat,titre='Titre du graph'):
   fig = px.imshow(corr_mat, text_auto=True,color_continuous_scale='RdBu_r')
   fig.update_layout(title_text=titre, title_x=0.5)
-  res = fig.show()
+  fig.layout.height = 500
+  fig.layout.width = 500
+  res = fig
   return res
 
 

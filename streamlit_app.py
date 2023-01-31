@@ -1,28 +1,50 @@
-import numpy as np
-import altair as alt
-import pandas as pd
+from pathlib import Path
+
 import streamlit as st
+from st_pages import Page, add_page_title, show_pages
+st.set_page_config(layout="wide"),
+show_pages(
+        [
+            
+            Page("streamlit_app.py", "Le Projet", ""),
+            # Can use :<icon-name>: or the actual icon
+            Page("streamlit_pages/data_profiling_page.py", "Data Profiling", ""),
+            # The pages appear in the order you pass them
+            Page("streamlit_pages/nettoyage_page.py", "Nettoyage", ""),
+            Page("streamlit_pages/analyse_page.py", "Analyse descriptive et exploratoire", ""),
+            # Will streamlit_pagesuse the default icon and name based on the filename if you don't
+            # pass them
+            Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning"),
+            Page("streamlit_pages/app_web_page.py", "L'application web", ""),
+        ]
+    )
+'''
+# Trouve ton job dans l'IA
+'''
+st.write('Bienvenue sur TrouveTonJob ! :sunglasses:')   
+'''
+Analyser des données d'offres d'emploi en rapport avec votre futur métier dans l'IA
 
-dataset_1 = pd.read_csv('dataset_1.csv', index_col=0)
-dataset_2 = pd.read_csv('dataset_2.csv', index_col=0)
-dataset_3 = pd.read_csv('dataset_3.csv', index_col=0)
+## Contexte du projet
+En tant que futur développeur IA vous allez vous familiariser avec le marché de l'emploi du secteur.
 
-st.header('ProjetTrouveTonJob')
+A partir d'un jeu de données fourni (issu du web scraping), vous allez réaliser le/la :
 
-st.write('Bienvenue sur TrouveTonJob ! :sunglasses:')
+'''
+st.markdown("- Intégration des données")
+st.markdown("- Nettoyage")
+st.markdown("- Préparation")
+st.markdown("- Analyse descriptive et exploratoire")
+st.markdown("- Modélisation grâce au machine learning")
+st.markdown("- Développement d'une application web")
+st.markdown('''
+<style>
+[data-testid="stMarkdownContainer"] ul{
+    padding-left:40px;
+}
+</style>
+''', unsafe_allow_html=True)
+    
 
-st.header('Choix du dataset')
 
-option = st.selectbox(
-     'Quel dataset voulez-vous choisir ?',
-     ('dataset_1', 'dataset_2', 'dataset_3'))
-
-st.write('Vous avez choisi le ', option)
-
-if option == 'dataset_1':
-    st.write(dataset_1)
-elif option == 'dataset_2':
-    st.write(dataset_2)
-else:
-    st.write(dataset_3)
 
