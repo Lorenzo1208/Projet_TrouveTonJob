@@ -41,8 +41,8 @@ col1, col2 = st.columns(2)
 with col1:
     html_websrapping ='''
     <div class="video_comentaire">
-    <p>Nous commencons d'abord par rentrer un ou des mots clées ici le keyword est Data.
-    Ensuite nous entrons la localisation ici 11R qui correspond sur le site de pôle emploi à la région Ile de france.
+    <p>Nous commencons d'abord par rentrer un ou des mots clées ici le keyword est Data.</br>
+    Ensuite nous entrons la localisation ici 11R qui correspond sur le site de pôle emploi à la région Ile de france.</br>
     Efin la magie s'opère la librairie Bs4 va nous permètre de lire le code HTML et récupérer le contenu des balises 
     que l'on a ciblés et Sélenium va simuler les cliques de l'utilisateur.</p>
     </div>'''
