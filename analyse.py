@@ -193,7 +193,7 @@ def matrice_corr(df= pd.DataFrame(),methode="pearson"):
 def heatmap(corr_mat,titre='Titre du graph'):
   fig = px.imshow(corr_mat, text_auto=True,color_continuous_scale='RdBu_r')
   fig.update_layout(title_text=titre, title_x=0.5)
-  res = fig.show()
+  res = fig
   return res
 
 
