@@ -3,7 +3,12 @@ import numpy as np
 import altair as alt
 import pandas as pd
 from st_pages import add_page_title
+
 st.set_page_config(layout="wide"),
+with open("assets/style.css") as style:
+    st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
+
+
 add_page_title("Analyse des donées ")
 dataset_1 = pd.read_csv('dataset_1.csv', index_col=0)
 dataset_2 = pd.read_csv('dataset_2.csv', index_col=0)
@@ -35,10 +40,12 @@ col1, col2 = st.columns(2)
 
 with col1:
     html_websrapping ='''
+    <div class="video_comentaire">
     <p>Nous commencons d'abord par rentrer un ou des mots clées ici le keyword est Data.
     Ensuite nous entrons la localisation ici 11R qui correspond sur le site de pôle emploi à la région Ile de france.
     Efin la magie s'opère la librairie Bs4 va nous permètre de lire le code HTML et récupérer le contenu des balises 
-    que l'on a ciblés et Sélenium va simuler les cliques de l'utilisateur.</p>'''
+    que l'on a ciblés et Sélenium va simuler les cliques de l'utilisateur.</p>
+    </div>'''
     st.markdown(html_websrapping, unsafe_allow_html=True)
     
 with col2:
