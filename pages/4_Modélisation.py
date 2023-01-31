@@ -7,8 +7,8 @@ import numpy as np
 import os 
 # import pandas_profiling
 # import streamlit_pandas_profiling
-from pandas_profiling import ProfileReport
-from streamlit_pandas_profiling import st_profile_report
+# from pandas_profiling import ProfileReport
+# from streamlit_pandas_profiling import st_profile_report
 
 st.title("Modélisation 🤖")
 
@@ -31,6 +31,6 @@ if choice == "Importer":
             
 if choice == "Analyser": 
     st.title("Analyser vos données 📊")
-    profile_df = df.ProfileReport()
-    st_profile_report(profile_df)
+#     profile_df = df.ProfileReport()
+#     st_profile_report(profile_df)
 
