@@ -3,7 +3,8 @@ import numpy as np
 import altair as alt
 import pandas as pd
 from st_pages import Page, add_page_title, show_pages
-from ydata_profiling import ProfileReport
+import pandas_profiling
+#from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
 
@@ -66,17 +67,17 @@ st.write('Vous avez choisi le ', option)
 
 if option == 'dataset_1':
     st.write(type(dataset_1))
-    pr = ProfileReport(dataset_1)
+    pr = dataset_1.profile_report()
     st_profile_report(pr)
     #st.write(dataset_1)
 elif option == 'dataset_2':
     
-    pr = ProfileReport(dataset_2)
+    pr = dataset_2.profile_report()
     st_profile_report(pr)
     #st.write(dataset_2)
 else:
      
-    pr = ProfileReport(dataset_3)
+    pr = dataset_3.profile_report()
     st_profile_report(pr)
     #st.write(dataset_3)
 
