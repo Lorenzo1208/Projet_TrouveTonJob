@@ -1,5 +1,6 @@
 from os.path import exists
 import pickle
+import time
 
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -12,6 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.model_selection import GridSearchCV
 from sklearn import set_config
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, SGDRegressor
 
 from data_cleaning import *
 
@@ -68,14 +70,13 @@ def get_pipeline_model(prepa, model):
 def search_best_model(pipe_model, X_y):
 
     param_grid = {
-        'model__n_estimators': [100],
-        'model__max_depth': [10,20],
-        'model__min_samples_split': [1,10],
-        'model__min_samples_leaf': [1,5],
-        'model__random_state': list(range(0, 100))
+        'n_estimators': [100, 1000, 10000, 100000],
+        'criterion': ["squared_error", "absolute_error", "friedman_mse"],
+        'max_features': ['auto', 'sqrt', 'log2', None],
+        'random_state': range(0, 1000)
     }
 
-    grid = GridSearchCV(pipe_model, param_grid, cv=5)
+    grid = GridSearchCV(pipe_model, param_grid, cv=5, verbose=3)
     # Fit the GridSearchCV object to the training data
     grid.fit(X_y[0], X_y[1])
 
@@ -98,15 +99,13 @@ def get_best_model():
 
     if not exists(file_name):
 
-        X, y = cleaning_data(get_dataset_3())
-
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+        X_y = cleaning_data(get_dataset_3())
 
         model = MultiOutputRegressor(RandomForestRegressor())
 
         pipe_model = get_pipeline_model(get_pipeline_preparation(), model)
 
-        pipe_model = search_best_model(pipe_model, (X_train, y_train))
+        pipe_model = search_best_model(pipe_model, X_y)
 
         pickle.dump(pipe_model, open(file_name, 'wb'))
 
@@ -117,10 +116,86 @@ def get_best_model():
         return pickle.load(open(file_name, 'rb'))
 
 
-def test_model(model, X_y):
+def test_model():
 
-    y_pred = model.predict(X_y[0])
+    starting_time = time.time()
 
-    score = r2_score(X_y[1], y_pred)
+    models = {
+        'RandomForestRegressor': RandomForestRegressor(),
+        'Lasso': Lasso(),
+        'ElasticNet': ElasticNet(),
+        'Ridge': Ridge(),
+        'LinearRegression': LinearRegression(),
+        'SGDRegressor': SGDRegressor()
+    }
 
-    print(score)
+    best_score = None
+    best_model_name = None
+    best_random_state = None
+    best_model = None
+
+    for model_name in models:
+
+        for random_state in range(100):
+
+            X_y = cleaning_data(get_dataset_3())
+
+            X_train, X_test, y_train, y_test = train_test_split(*X_y, test_size=0.3, random_state=random_state)
+
+            model = get_pipeline_model(get_pipeline_preparation(), MultiOutputRegressor(models[model_name]))
+
+            model.fit(X_train, y_train)
+
+            y_pred = model.predict(X_test)
+
+            score = r2_score(y_test, y_pred)
+
+            print(f" - {model_name:25} {random_state:5} - score :{score:10.3%}", end='\n\n')
+
+            if best_score is None or score > best_score:
+                best_score = score
+                best_model_name = model_name
+                best_random_state = random_state
+                best_model = model
+
+    print(f"BEST : {best_model_name:25} {best_random_state:5} - score :{best_score:10.3%}")
+
+    duree = time.time() - starting_time
+
+    print(f"{duree//3600} H {duree%3600//60} M {duree%3600%60}")
+
+    return best_model
+
+
+def main():
+
+    file_name = "model_test.model"
+
+    if not exists(file_name):
+        model = test_model()
+        pickle.dump(model, open(file_name, 'wb'))
+
+    else:
+        model = pickle.load(open(file_name, 'rb'))
+        print('Model chargé')
+
+    print('-------------')
+
+    X = pd.DataFrame({
+        'lieu': ['tours', 'paris', 'la defense', 'tours'],
+        'Nom de la société': ['', 'societe general', 'edf', 'atos'],
+        'Type de contrat': ['cdi', 'cdi', 'stage', 'alternance'],
+        'Date de publication': time.time(),
+        'Intitulé du poste': ['data scientist', 'chief business analyst', 'stage', 'alternance data ia'],
+        'competences': ['python sql git', 'python sql reseau power bi', 'python', 'python sql pyspark excel git']
+    })
+
+    print(X)
+
+    y = model.predict(X)
+
+    print(y)
+
+
+if __name__ == '__main__':
+    main()
