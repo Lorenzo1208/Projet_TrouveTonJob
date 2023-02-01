@@ -142,10 +142,10 @@ print(f"{int(duree/3600)} h {int((duree%3600)/60)} m {duree%3600%60}")
 # from sklearn.model_selection import GridSearchCV
 # param_grid = {
     
-#     'model__n_estimators': list(range(10, 100)),
+#     'model__n_estimators': [100],
 #     'model__max_depth': [10,20],
-#     'model__min_samples_split': [1,3,5,10],
-#     'model__min_samples_leaf': [1,3,5],
+#     'model__min_samples_split': [1,10],
+#     'model__min_samples_leaf': [1,5],
 #     'model__random_state': list(range(0, 100))
 # }
 
