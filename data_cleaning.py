@@ -8,7 +8,7 @@ import pandas as pd
 import requests
 import unidecode
 
-locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+# locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 
 def try_download_json(url:str) -> pd.DataFrame:
