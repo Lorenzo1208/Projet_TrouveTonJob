@@ -10,6 +10,13 @@ import plotly.express as px
 import seaborn as sns
 from analyse import *
 
+import pandas_profiling
+from streamlit_pandas_profiling import st_profile_report
+
+df1 = pd.read_csv('dataset_1.csv')
+df2 = pd.read_csv('dataset_2.csv')
+df3 = pd.read_csv('dataset_3.csv')
+
 st.set_page_config(layout="wide"),
 with open("assets/style.css") as style:
     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
@@ -19,6 +26,7 @@ df2 = pd.read_csv('dataset_2.csv')
 df3 = pd.read_csv('dataset_3.csv')
 
 st.title("Analyse 📊")
+
 st.header('Choix du dataset')
 
 option = st.selectbox(
@@ -86,3 +94,22 @@ mat_corr = matrice_corr(df,method)
 corr_heatmap= heatmap(mat_corr[0],f"<b>Matrice de corrélation avec la méthode {mat_corr[1]} </b>")
 st.plotly_chart(corr_heatmap)
 ##########################################################################################################################
+
+if option == 'dataset_1':
+    #st.write(type(dataset_1))
+    pr = df1.profile_report()
+    st_profile_report(pr)
+    #st.write(dataset_1)
+elif option == 'dataset_2':
+    
+    pr = df2.profile_report()
+    st_profile_report(pr)
+    #st.write(dataset_2)
+else:
+     
+    pr = df3.profile_report()
+    st_profile_report(pr)
+    #st.write(dataset_3)
+
+
+st.write("This is just a sample page!")
