@@ -66,7 +66,7 @@ option = st.selectbox(
 st.write('Vous avez choisi le ', option)
 
 if option == 'dataset_1':
-    st.write(type(dataset_1))
+    #st.write(type(dataset_1))
     pr = dataset_1.profile_report()
     st_profile_report(pr)
     #st.write(dataset_1)

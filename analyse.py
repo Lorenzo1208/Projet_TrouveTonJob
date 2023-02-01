@@ -98,7 +98,7 @@ def bar_plot_asc(df_inpput,val_x,val_y,hover_name,color, titre='Titre du graphiq
 
 """# Les compétences les plus recherchées"""
 
-def skills_best_n(df= pd.DataFrame(), num_skills=int()):
+def skills_best_n(df: pd.DataFrame, num_skills:int):
   df = df.dropna(subset=["competences"])
   df = df.dropna(subset=["competences"])
   df["competences"] = df["competences"].str.split(",").apply(lambda x: [i.strip() for i in x])
@@ -109,7 +109,7 @@ def skills_best_n(df= pd.DataFrame(), num_skills=int()):
 
 """# Les entreprises qui recrutent le plus"""
 
-def entreprises_best_n(df= pd.DataFrame(), num_skills=int()):
+def entreprises_best_n(df: pd.DataFrame, num_skills:int):
   df = df.dropna(subset=["Nom de la société"])
   df["Nom de la société"] = df["Nom de la société"].str.split(",").apply(lambda x: [i.strip() for i in x])
   entreprises_count = df["Nom de la société"].explode().value_counts().reset_index(name='counts')
@@ -126,7 +126,7 @@ def entreprises_best_n(df= pd.DataFrame(), num_skills=int()):
 """
 
 # Tarik
-def jobs_best_n(df= pd.DataFrame(), num_skills=int()):
+def jobs_best_n(df: pd.DataFrame, num_skills:int):
   df = df.dropna(subset=['Intitulé du poste','Salaire minimum','Salaire maximum'])
   df["Intitulé du poste"] = df["Intitulé du poste"]
   df["Salaire_mean"] = (df['Salaire minimum'].astype(float) + df['Salaire maximum'].astype(float)) / 2
@@ -144,7 +144,7 @@ def jobs_best_n(df= pd.DataFrame(), num_skills=int()):
 # Le salaire moyen par compétence
 """
 
-def skills_best_n_paid(df=pd.DataFrame(), num_skills=int()):
+def skills_best_n_paid(df:pd.DataFrame, num_skills:int):
     df = df.dropna(subset=['competences','Salaire minimum','Salaire maximum'])
     df["Salaire_mean"] = (df['Salaire minimum'].astype(float) + df['Salaire maximum'].astype(float)) / 2
     df["competences"] = df["competences"].str.split(",").apply(lambda x: [i.strip() for i in x])
@@ -155,7 +155,7 @@ def skills_best_n_paid(df=pd.DataFrame(), num_skills=int()):
 
 """# Les types de contrat"""
 
-def contrat_best_n(df= pd.DataFrame(), num_skills=int()):
+def contrat_best_n(df: pd.DataFrame, num_skills:int):
   df = df.dropna(subset=["Type de contrat"])
   df["Type de contrat"] = df["Type de contrat"].str.split(",").apply(lambda x: [i.strip() for i in x])
   contrat_count = df["Type de contrat"].explode().value_counts().reset_index(name='counts')
@@ -165,7 +165,7 @@ def contrat_best_n(df= pd.DataFrame(), num_skills=int()):
 
 """##Analyse multivariée"""
 
-def matrice_corr(df= pd.DataFrame(),methode=str()):
+def matrice_corr(df: pd.DataFrame,methode:str)->tuple:
   df['competences'] = df['competences'].astype(str)
   df['competences'] = df['competences'].apply(lambda x : x.strip())
   if methode not in ['pearson', 'kendall', 'spearman']:
