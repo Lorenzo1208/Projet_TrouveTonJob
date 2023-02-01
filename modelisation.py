@@ -67,23 +67,31 @@ def get_pipeline_model(prepa, model):
     return Pipeline([('preparation', prepa), ('model',model)])
 
 
-def search_best_model(pipe_model, X_y):
+def search_best_model(model, X_y):
+
+    starting_time = time.time()
 
     param_grid = {
         'n_estimators': [100, 1000, 10000, 100000],
         'criterion': ["squared_error", "absolute_error", "friedman_mse"],
-        'max_features': ['auto', 'sqrt', 'log2', None],
+        'max_features': ['sqrt', 'log2', None],
         'random_state': range(0, 1000)
     }
 
-    grid = GridSearchCV(pipe_model, param_grid, cv=5, verbose=3)
-    # Fit the GridSearchCV object to the training data
-    grid.fit(X_y[0], X_y[1])
+    grid = MultiOutputRegressor(GridSearchCV(model, param_grid, cv=5, verbose=3))
 
-    print(grid.best_score_)
-    print(grid.best_params_)
+    pipe_model = get_pipeline_model(get_pipeline_preparation(), grid)
 
-    return grid
+    pipe_model.fit(*X_y)
+
+    duree = time.time() - starting_time
+
+    print("BEST SCORE :", pipe_model.best_score_)
+    print("BEST PARAMS :", pipe_model.best_params_)
+    print()
+    print(f"{duree//3600} H {duree%3600//60} M {duree%3600%60}")
+
+    return pipe_model
 
 
 def get_diagram(pipeline):
@@ -101,11 +109,9 @@ def get_best_model():
 
         X_y = cleaning_data(get_dataset_3())
 
-        model = MultiOutputRegressor(RandomForestRegressor())
+        model = RandomForestRegressor()
 
-        pipe_model = get_pipeline_model(get_pipeline_preparation(), model)
-
-        pipe_model = search_best_model(pipe_model, X_y)
+        pipe_model = search_best_model(model, X_y)
 
         pickle.dump(pipe_model, open(file_name, 'wb'))
 
@@ -198,4 +204,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    get_best_model()
