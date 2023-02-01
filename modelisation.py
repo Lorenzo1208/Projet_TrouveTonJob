@@ -98,3 +98,59 @@ print('\n'.join([f" - {n:20} moy : {sum(scores[n]) / len(scores[n])}" for n in m
 duree = time.time() - start_time
 
 print(f"{int(duree/3600)} h {int((duree%3600)/60)} m {duree%3600%60}")
+
+# from sklearn.ensemble import RandomForestClassifier
+
+# df = pd.read_csv("https://raw.githubusercontent.com/Lorenzo1208/Projet_TrouveTonJob/main/dataset_3.csv")
+# ###############################################################################################################
+# df.drop(columns='origine', inplace=True)
+# df.dropna(subset=['Salaire minimum', 'Salaire maximum'], inplace=True)
+# df['competences'] = df['competences'].astype(str).apply(lambda x : x.replace(', ', ' ').replace(',', ' '))
+# df['Date de publication'] = pd.to_datetime(df['Date de publication'])
+# df['Date de publication'] = df['Date de publication'].apply(lambda x: x.timestamp())
+# df['Date de publication'] = df['Date de publication'].astype(int)
+# ###############################################################################################################
+# X = df.drop(['Salaire minimum'], axis=1)
+# y = df[['Salaire minimum']]
+# column_cat = ['lieu', 'Nom de la société', 'Type de contrat','Intitulé du poste']
+# transfo_cat = Pipeline([
+# ('onehot', OneHotEncoder(handle_unknown='ignore'))
+#     ])
+# column_num = ['Date de publication']
+# transfo_num = Pipeline([
+#         ('imputation', SimpleImputer(strategy='median')),
+#         ('scaling', MinMaxScaler())
+#     ])
+# transfo_text = Pipeline([
+#         ('bow', CountVectorizer())
+#     ])
+# preparation = ColumnTransformer([
+#             ('data_cat', transfo_cat , column_cat),
+#             ('data_num', transfo_num , column_num),
+#             ('data_comp', transfo_text , 'competences')
+            
+#     ])
+# # Train the model
+# model = RandomForestClassifier()
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# # model = MultiOutputRegressor(model)
+# pipe_model = Pipeline([('preparation', preparation), ('model',model)])
+# pipe_model.fit(X_train, y_train)
+# y_pred = pipe_model.predict(X_test)
+# score = r2_score(y_test, y_pred)
+
+# from sklearn.model_selection import GridSearchCV
+# param_grid = {
+    
+#     'model__n_estimators': list(range(10, 100)),
+#     'model__max_depth': [10,20],
+#     'model__min_samples_split': [1,3,5,10],
+#     'model__min_samples_leaf': [1,3,5],
+#     'model__random_state': list(range(0, 100))
+# }
+
+# grid = GridSearchCV(pipe_model, param_grid, cv=5)
+# # Fit the GridSearchCV object to the training data
+# grid.fit(X_train, y_train)
+# print(grid.best_score_)
+# print(grid.best_params_)
