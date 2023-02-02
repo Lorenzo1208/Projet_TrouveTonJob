@@ -10,7 +10,7 @@ show_pages(
             
             Page("streamlit_app.py", "Le Projet", ""),
             # Can use :<icon-name>: or the actual icon
-            Page("streamlit_pages/data_profiling_page.py", "Data Profiling", ""),
+            Page("streamlit_pages/data_profiling_page.py", "Data Profiling 📥", ""),
             # The pages appear in the order you pass them
             # Page("streamlit_pages/nettoyage_page.py", "Nettoyage", ""),
             Page("streamlit_pages/analyse_page.py", "Analyse descriptive et exploratoire", ""),
