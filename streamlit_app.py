@@ -16,8 +16,7 @@ show_pages(
             Page("streamlit_pages/analyse_page.py", "Analyse descriptive et exploratoire", ""),
             # Will streamlit_pagesuse the default icon and name based on the filename if you don't
             # pass them
-            Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning"),
-            Page("streamlit_pages/app_web_page.py", "L'application web", ""),
+            Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning")
         ]
     )
 st.markdown('''

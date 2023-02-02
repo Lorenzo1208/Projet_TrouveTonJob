@@ -1,4 +1,28 @@
-
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
 .css-1fv8s86 p{
     text-align: justify !important;
 }
+
+.user-select-none.svg-container{
+    width : 45%!important;
+
+}
+
+}
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+
+}
+
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+  
+

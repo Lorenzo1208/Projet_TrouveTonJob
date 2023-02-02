@@ -45,6 +45,8 @@ else:
     df = df3
     st.write(df3)
 
+
+
 ##########################################################################################################################
 st.header('Compétences les plus recherchées')
 n = st.select_slider("Choisissez le nombre de compétences à afficher", options=[3, 5, 7, 10, 12, 15])
