@@ -20,7 +20,7 @@ show_pages(
         ]
     )
 
-st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png")
+st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true")
 st.markdown('''
 <style>
 [data-testid="stMarkdownContainer"] ul{
