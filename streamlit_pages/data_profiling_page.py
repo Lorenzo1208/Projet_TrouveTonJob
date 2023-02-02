@@ -12,7 +12,7 @@ df2 = pd.read_csv('dataset_2.csv')
 df3 = pd.read_csv('dataset_3.csv')
 
 
-
+st.title("Data Profiling 📥")
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
@@ -27,7 +27,6 @@ video_file = open('assets/Webscrapping_exemple.mp4', 'rb')
 video_bytes = video_file.read()
 
 html_string =f'''
-<h1><b>Data Profiling 📥</b></h1>
 <h2><b>Le webscrapping c'est quoi?</b></h2>
 <p>Recueillir des données sur le web est parfois compliqué et quand cela est possible,
  il est difficile de pouvoir les télécharger ou d’effectuer un copier-coller. 
