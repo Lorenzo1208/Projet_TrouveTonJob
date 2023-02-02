@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV
 from sklearn import set_config
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, SGDRegressor
 
@@ -73,23 +73,29 @@ def search_best_model(model, X_y):
 
     starting_time = time.time()
 
-    param_grid = {
+    param_search = {
         'n_estimators': [100, 1000, 10000, 100000],
         'criterion': ["squared_error", "absolute_error", "friedman_mse"],
         'max_features': ['sqrt', 'log2', None],
-        'random_state': range(0, 1000)
+        'random_state': range(1000)
     }
 
-    grid = MultiOutputRegressor(GridSearchCV(model, param_grid, cv=5))
+    search = RandomizedSearchCV(model, param_search, n_iter = 100, cv=5, verbose=3)
 
-    pipe_model = get_pipeline_model(get_pipeline_preparation(), grid)
+    pipe_model = get_pipeline_model(get_pipeline_preparation(), MultiOutputRegressor(search))
 
     pipe_model.fit(*X_y)
 
     duree = time.time() - starting_time
 
-    print("BEST SCORE :", pipe_model.best_score_)
-    print("BEST PARAMS :", pipe_model.best_params_)
+    search = pipe_model.named_steps['model'].estimators_[0]
+
+    if hasattr(search, 'best_score_'):
+        print("BEST SCORE :", search.best_score_)
+
+    if hasattr(search, 'best_params_'):
+        print("BEST PARAMS :", search.best_params_)
+
     print()
     print(f"{duree//3600} H {duree%3600//60} M {duree%3600%60}")
 
@@ -99,8 +105,7 @@ def search_best_model(model, X_y):
 def get_diagram(pipeline):
 
     set_config(display='diagram')
-
-    return pipeline
+    print(pipeline)
 
 
 def get_best_model():
@@ -208,6 +213,6 @@ def main():
 if __name__ == '__main__':
     #main()
 
-    with open("log.txt", 'w') as f:
-        sys.stdout = f
-        get_best_model()
+    #with open("log.txt", 'w') as f:
+    #    sys.stdout = f
+    get_best_model()
