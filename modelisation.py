@@ -1,4 +1,5 @@
 from os.path import exists
+import sys
 import pickle
 import time
 
@@ -20,6 +21,7 @@ from data_cleaning import *
 
 def cleaning_data(df: pd.DataFrame) -> tuple:
 
+    df = df.copy()
     df.drop(columns='origine', inplace=True)
     df.dropna(inplace=True)
     df = df[df['Salaire minimum'] < 300000]
@@ -78,7 +80,7 @@ def search_best_model(model, X_y):
         'random_state': range(0, 1000)
     }
 
-    grid = MultiOutputRegressor(GridSearchCV(model, param_grid, cv=5, verbose=3))
+    grid = MultiOutputRegressor(GridSearchCV(model, param_grid, cv=5))
 
     pipe_model = get_pipeline_model(get_pipeline_preparation(), grid)
 
@@ -205,4 +207,7 @@ def main():
 
 if __name__ == '__main__':
     #main()
-    get_best_model()
+
+    with open("log.txt", 'w') as f:
+        sys.stdout = f
+        get_best_model()
