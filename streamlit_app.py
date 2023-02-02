@@ -21,7 +21,7 @@ show_pages(
     )
 
 # st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
-st.write("", 
+st.write(
     center=True, 
     image="https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true",
     format='PNG')
