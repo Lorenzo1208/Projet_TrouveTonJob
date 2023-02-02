@@ -9,7 +9,7 @@ st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
-    
+st.title("Modélisation avec le machine learning 🤖")
 st.title("Estimer votre salaire 🤑")
 
 def on_submit_click(**kwargs):
