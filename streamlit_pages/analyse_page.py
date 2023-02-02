@@ -105,17 +105,17 @@ if option == 'dataset_1':
     #st.write(type(dataset_1))
     pr = df1.profile_report()
     st_profile_report(pr)
-    #st.write(dataset_1)
+    st.write(dataset_1)
 elif option == 'dataset_2':
     
     pr = df2.profile_report()
     st_profile_report(pr)
-    #st.write(dataset_2)
+    st.write(dataset_2)
 else:
      
     pr = df3.profile_report()
     st_profile_report(pr)
-    #st.write(dataset_3)
+    st.write(dataset_3)
 
 
 ##########################################################################################################################
