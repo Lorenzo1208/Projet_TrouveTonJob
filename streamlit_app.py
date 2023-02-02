@@ -26,10 +26,10 @@ show_pages(
 add_logo("https://imgs.search.brave.com/38_9jgXr4T3xusZcXSQri27wYCQSN3G9fbudMQhMHVg/rs:fit:100:100:1/g:ce/aHR0cHM6Ly9pMy5m/ZWVkc3BvdC5jb20v/NDU2MzEzNS5qcGc")
 
 colored_header(
-
+    label="",
+    description="",
     color_name="violet-70",
 )
-
 st.markdown('''
 <style>
 [data-testid="stMarkdownContainer"] ul{
