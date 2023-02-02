@@ -32,7 +32,7 @@ st.markdown('''
 </style>
 ''', unsafe_allow_html=True)
 context_projet_html_string = f'''
-<h1>Trouve ton job dans l'IA</h1>
+<h1>Trouve ton job dans l'IA 🕵🏻</h1>
 <h2>Bienvenue sur TrouveTonJob ! </h2>
 <h2>Contexte du projet:</h2>
 <div><p class="sc-6a4c5dd9-0 krAuxe">En tant que futur développeur IA vous allez vous familiariser avec le marché de l'emploi du secteur.</p>
