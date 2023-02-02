@@ -23,7 +23,7 @@ show_pages(
     )
 
 # st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
-add_logo("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true",width=400, height=200)
+add_logo("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", height=100)
 
 
 st.markdown('''
