@@ -1,4 +1,3 @@
-
 from data_cleaning import get_dataset_1,get_dataset_2, get_dataset_3
 import pandas as pd
 import datetime
@@ -7,101 +6,77 @@ import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objs as go
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from scipy.spatial.distance import cdist
+import numpy as np
+import matplotlib.pyplot as plt
 
 vectorizer = CountVectorizer()
 df1 = get_dataset_1()
 df2 = get_dataset_2()
 df3 = get_dataset_3()
-df1 = df1.drop(columns='origine')
-df1.dropna(inplace=True)
 
-df1 = df1[df1['Salaire minimum'] < 300000]
-df1.dropna(subset=['Salaire minimum', 'Salaire maximum'], inplace=True)
-df1['competences'] = df1['competences'].apply(lambda x : x.replace(', ', ' ').replace(',', ' '))
+def kmeans_data(df= pd.DataFrame()):
+  
+    df = df.drop(columns='origine')
+    df.dropna(inplace=True)
+    df = df[df['Salaire minimum'] < 300000]
+    df.dropna(subset=['Salaire minimum', 'Salaire maximum'], inplace=True)
+    df['competences'] = df['competences'].apply(lambda x : x.replace(', ', ' ').replace(',', ' '))
 
-df1['Date de publication'] = pd.to_datetime(df1['Date de publication'])
-df1['Date de publication'] = df1['Date de publication'].apply(lambda x: x.timestamp())
-df1['Date de publication'] = df1['Date de publication'].astype(int)
+    df['Date de publication'] = pd.to_datetime(df['Date de publication'])
+    df['Date de publication'] = df['Date de publication'].apply(lambda x: x.timestamp())
+    df['Date de publication'] = df['Date de publication'].astype(int)
 
-# X_poste = vectorizer.fit_transform(df_patrick["Intitulé du poste"])
-# X_competences = vectorizer.transform(df_patrick["competences"])
-df1 = pd.get_dummies(df1, columns=["Intitulé du poste",'lieu', 'Nom de la société','competences', 'Type de contrat'])
-imputer = SimpleImputer(strategy='median')
-df1["Date de publication"] = imputer.fit_transform(df1[["Date de publication"]])
-# Scale the values to the range [0, 1]
-scaler = MinMaxScaler()
-df1["Salaire minimum"] = scaler.fit_transform(df1[["Salaire minimum"]])
-df1["Salaire maximum"] = scaler.fit_transform(df1[["Salaire maximum"]])
-df1["Date de publication"] = scaler.fit_transform(df1[["Date de publication"]])
-X = df1.values
-kmeans = MeanShift()
-kmeans.fit(X)
-y_kmeans = kmeans.predict(X)
+    df = pd.get_dummies(df, columns=["Intitulé du poste",'lieu', 'Nom de la société','competences', 'Type de contrat'])
+    imputer = SimpleImputer(strategy='median')
+    df["Date de publication"] = imputer.fit_transform(df[["Date de publication"]])
 
-fig,ax = plt.subplots(1,3)
-ax[0].scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
-centers = kmeans.cluster_centers_
-ax[0].scatter(centers[:, 0], centers[:, 1], c=range(len(centers)), s=200, alpha=0.5, marker='x')
-
-df2 = df2.drop(columns='origine')
-df2.dropna(inplace=True)
-
-df2 = df2[df2['Salaire minimum'] < 300000]
-df2.dropna(subset=['Salaire minimum', 'Salaire maximum'], inplace=True)
-df2['competences'] = df2['competences'].apply(lambda x : x.replace(', ', ' ').replace(',', ' '))
-
-df2['Date de publication'] = pd.to_datetime(df2['Date de publication'])
-df2['Date de publication'] = df2['Date de publication'].apply(lambda x: x.timestamp())
-df2['Date de publication'] = df2['Date de publication'].astype(int)
-
-# X_poste = vectorizer.fit_transform(df_patrick["Intitulé du poste"])
-# X_competences = vectorizer.transform(df_patrick["competences"])
-df2 = pd.get_dummies(df2, columns=["Intitulé du poste",'lieu', 'Nom de la société','competences', 'Type de contrat'])
-imputer = SimpleImputer(strategy='median')
-df2["Date de publication"] = imputer.fit_transform(df2[["Date de publication"]])
-# Scale the values to the range [0, 1]
-scaler = MinMaxScaler()
-df2["Salaire minimum"] = scaler.fit_transform(df2[["Salaire minimum"]])
-df2["Salaire maximum"] = scaler.fit_transform(df2[["Salaire maximum"]])
-df2["Date de publication"] = scaler.fit_transform(df2[["Date de publication"]])
-X = df2.values
-kmeans = MeanShift()
-kmeans.fit(X)
-y_kmeans = kmeans.predict(X)
-
-ax[1].scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
-centers = kmeans.cluster_centers_
-ax[1].scatter(centers[:, 0], centers[:, 1], c=range(len(centers)), s=200, alpha=0.5,marker='x')
+    scaler = MinMaxScaler()
+    df["Salaire minimum"] = scaler.fit_transform(df[["Salaire minimum"]])
+    df["Salaire maximum"] = scaler.fit_transform(df[["Salaire maximum"]])
+    df["Date de publication"] = scaler.fit_transform(df[["Date de publication"]])
+    X = df.values
+    kmeans = KMeans()
+    kmeans.fit(X)
+    y_kmeans = kmeans.predict(X)
+    return X
 
 
 
-df3 = df3.drop(columns='origine')
-df3.dropna(inplace=True)
+def plot_elbow_method(X):
+    K = range(1, 40)
+    inertias = []
 
-df3 = df3[df3['Salaire minimum'] < 300000]
-df3.dropna(subset=['Salaire minimum', 'Salaire maximum'], inplace=True)
-df3['competences'] = df3['competences'].apply(lambda x : x.replace(', ', ' ').replace(',', ' '))
+    for k in K:
+        kmeanModel = KMeans(n_clusters=k).fit(X)
+        kmeanModel.fit(X)
+        inertias.append(kmeanModel.inertia_)
+  
+    fig = px.line(x=K, y=inertias, labels={'x': 'Valeurs de K', 'y': 'Inertie'})
+    fig.update_layout(title='Méthode du coude')
+    res = fig
+    return res
 
-df3['Date de publication'] = pd.to_datetime(df3['Date de publication'])
-df3['Date de publication'] = df3['Date de publication'].apply(lambda x: x.timestamp())
-df3['Date de publication'] = df3['Date de publication'].astype(int)
 
-# X_poste = vectorizer.fit_transform(df_patrick["Intitulé du poste"])
-# X_competences = vectorizer.transform(df_patrick["competences"])
-df3 = pd.get_dummies(df3, columns=["Intitulé du poste",'lieu', 'Nom de la société','competences', 'Type de contrat'])
-imputer = SimpleImputer(strategy='median')
-df3["Date de publication"] = imputer.fit_transform(df3[["Date de publication"]])
-# Scale the values to the range [0, 1]
-scaler = MinMaxScaler()
-df3["Salaire minimum"] = scaler.fit_transform(df3[["Salaire minimum"]])
-df3["Salaire maximum"] = scaler.fit_transform(df3[["Salaire maximum"]])
-df3["Date de publication"] = scaler.fit_transform(df3[["Date de publication"]])
-X = df3.values
-kmeans = MeanShift()
-kmeans.fit(X)
-y_kmeans = kmeans.predict(X)
+def cluster_plot(df):
+    X = kmeans_data(df)
+    kmeans = KMeans()
+    kmeans.fit(X)
+    y_kmeans = kmeans.predict(X)
 
-ax[2].scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
-centers = kmeans.cluster_centers_
-ax[2].scatter(centers[:, 0], centers[:, 1], c=range(len(centers)), s=200, alpha=0.5,marker='x')
-plt.show()
+    fig = px.scatter(x=X[:, 0], y=X[:, 1], color=y_kmeans, color_discrete_sequence='viridis')
+    centers = kmeans.cluster_centers_
+    fig.add_scatter(x=centers[:, 0], y=centers[:, 1], mode='markers', marker=dict(size=12, color='red', symbol='x'))
+    res = fig
+    return res
+
+
+X = kmeans_data(df1)
+plot_elbow_method(X)
+cluster_plot(df1)
