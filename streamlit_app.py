@@ -20,7 +20,7 @@ show_pages(
         ]
     )
 
-st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400,center=True)
+st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
 
 
 
