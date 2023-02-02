@@ -114,4 +114,28 @@ else:
     #st.write(dataset_3)
 
 
-st.write("This is just a sample page!")
+##########################################################################################################################
+
+from cluster import *
+
+st.header('Clustering')
+
+option = st.selectbox(
+     'Quelle dataset voulez-vous choisir ?',
+     ('dataset_patrick', 'dataset_tarik', 'dataset_patrick_tarik'))
+st.write('Vous avez choisi le ', option)
+
+if option == 'dataset_patrick':
+    df = df1
+elif option == 'dataset_tarik':
+    df = df2
+else:
+    df = df3
+    
+X = kmeans_data(df1)
+plot_elbow_method(X)
+cluster_plot(df1)
+
+st.plotly_chart(plot_elbow_method(X))
+
+st.plotly_chart(cluster_plot(df))
