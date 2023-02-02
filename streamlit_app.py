@@ -5,21 +5,21 @@ st.set_page_config(layout="wide"),
 with open("assets/style.css") as style:
     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
-show_pages(
-        [
+# show_pages(
+#         [
             
-            Page("streamlit_app.py", "Le Projet", ""),
-            # Can use :<icon-name>: or the actual icon
-            Page("streamlit_pages/data_profiling_page.py", "Data Profiling", ""),
-            # The pages appear in the order you pass them
-            Page("streamlit_pages/nettoyage_page.py", "Nettoyage", ""),
-            Page("streamlit_pages/analyse_page.py", "Analyse descriptive et exploratoire", ""),
-            # Will streamlit_pagesuse the default icon and name based on the filename if you don't
-            # pass them
-            Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning"),
-            Page("streamlit_pages/app_web_page.py", "L'application web", ""),
-        ]
-    )
+#             Page("streamlit_app.py", "Le Projet", ""),
+#             # Can use :<icon-name>: or the actual icon
+#             Page("streamlit_pages/data_profiling_page.py", "Data Profiling", ""),
+#             # The pages appear in the order you pass them
+#             Page("streamlit_pages/nettoyage_page.py", "Nettoyage", ""),
+#             Page("streamlit_pages/analyse_page.py", "Analyse descriptive et exploratoire", ""),
+#             # Will streamlit_pagesuse the default icon and name based on the filename if you don't
+#             # pass them
+#             Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning"),
+#             Page("streamlit_pages/app_web_page.py", "L'application web", ""),
+#         ]
+#     )
 '''
 # Trouve ton job dans l'IA
 '''
