@@ -18,8 +18,6 @@ st.set_page_config(layout="wide")
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
 
-add_page_title("Analyse des donées ")
-
 
 video_file = open('assets/Webscrapping_exemple.mp4', 'rb')
 video_bytes = video_file.read()
