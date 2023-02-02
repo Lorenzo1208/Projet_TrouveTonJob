@@ -5,11 +5,17 @@ import pickle
 import numpy as np
 import modelisation
 from st_pages import add_page_title
+from streamlit_extras.colored_header import colored_header
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 from streamlit_extras.let_it_rain import rain
 st.title("Modélisation avec le machine learning 🤖")
+colored_header(
+    label="",
+    description="",
+    color_name="green-70",
+)
 st.title("Estimer votre salaire 🤑")
 
 def on_submit_click(**kwargs):
