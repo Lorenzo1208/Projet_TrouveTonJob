@@ -17,7 +17,7 @@ st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
-
+st.title("Data Profiling 📥")
 
 video_file = open('assets/Webscrapping_exemple.mp4', 'rb')
 video_bytes = video_file.read()
