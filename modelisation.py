@@ -217,6 +217,15 @@ def main():
 
     model_SGD = SGDRegressor()
 
+    param_Forest = {
+        'n_estimators': [100, 1000, 10000, 100000],
+        'criterion': ["squared_error", "absolute_error", "friedman_mse"],
+        'max_features': ['sqrt', 'log2', None],
+        'random_state': range(1000)
+    }
+
+    model_Forest = RandomForestRegressor()
+
     get_best_model("SGDRegressor.model", model_SGD, param_SGD)
 
 
