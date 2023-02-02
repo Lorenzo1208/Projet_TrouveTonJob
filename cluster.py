@@ -73,6 +73,7 @@ def cluster_plot(df):
     fig = px.scatter(x=X[:, 0], y=X[:, 1], color=y_kmeans, color_discrete_sequence='viridis')
     centers = kmeans.cluster_centers_
     fig.add_scatter(x=centers[:, 0], y=centers[:, 1], mode='markers', marker=dict(size=12, color='red', symbol='x'))
+    fig.update_layout(title='Clustering des offres d\'emploi')
     res = fig
     return res
 
