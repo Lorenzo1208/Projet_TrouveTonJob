@@ -66,7 +66,14 @@ def plot_elbow_method(X):
 
 def cluster_plot(df):
     X = kmeans_data(df)
-    kmeans = KMeans()
+    inertias = []
+    for k in range(1, 11):
+        kmeans = KMeans(n_clusters=k)
+        kmeans.fit(X)
+        inertias.append(kmeans.inertia_)
+
+    optimal_k = np.argmin(inertias) + 1
+    kmeans = KMeans(n_clusters=optimal_k)
     kmeans.fit(X)
     y_kmeans = kmeans.predict(X)
 
