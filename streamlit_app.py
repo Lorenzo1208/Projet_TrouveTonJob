@@ -19,6 +19,8 @@ show_pages(
             Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning")
         ]
     )
+
+st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png")
 st.markdown('''
 <style>
 [data-testid="stMarkdownContainer"] ul{
