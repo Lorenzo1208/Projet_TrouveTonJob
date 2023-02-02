@@ -6,7 +6,9 @@ from streamlit_extras.app_logo import add_logo
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
+from streamlit_extras.badges import badge
 
+badge(type="github", url="https://github.com/Lorenzo1208/Projet_TrouveTonJob")
 show_pages(
         [
             
