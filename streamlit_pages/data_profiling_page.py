@@ -26,7 +26,8 @@ colored_header(
 video_file = open('assets/Webscrapping_exemple.mp4', 'rb')
 video_bytes = video_file.read()
 
-html_string =f'''
+html_string = f'''
+
 <h2><b>Le webscrapping c'est quoi?</b></h2>
 <p>Recueillir des données sur le web est parfois compliqué et quand cela est possible,
  il est difficile de pouvoir les télécharger ou d’effectuer un copier-coller. 
