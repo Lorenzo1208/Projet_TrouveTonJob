@@ -66,4 +66,4 @@ with open("assets/style.css") as style:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("Estimer votre salaire 🤑")
         choice = st.radio("Navigation", ["Modélisation"])
-        st.info("Cette section vous permet d'estimer votre salaire et d'analyser ces estimations.")
+        st.info("Cette section vous permet d'estimer votre salaire !")
