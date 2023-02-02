@@ -9,7 +9,7 @@ import streamlit as st
 import plotly.express as px
 import seaborn as sns
 from analyse import *
-
+from streamlit_extras.colored_header import colored_header
 from pandas_profiling import profile_report
 from streamlit_pandas_profiling import st_profile_report
 
@@ -26,7 +26,11 @@ df2 = pd.read_csv('dataset_2.csv')
 df3 = pd.read_csv('dataset_3.csv')
 
 st.title("Analyse 📊")
-
+colored_header(
+    label="",
+    description="",
+    color_name="blue-70",
+)
 st.header('Choix du dataset')
 
 option = st.selectbox(
