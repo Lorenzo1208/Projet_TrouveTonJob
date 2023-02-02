@@ -17,6 +17,8 @@ colored_header(
     color_name="green-70",
 )
 st.title("Estimer votre salaire 🤑")
+with st.expander("Pipeline du modèle 🔍"):
+    st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/pipe.png?raw=true")
 
 def on_submit_click(**kwargs):
     resp = send_update(**kwargs)
