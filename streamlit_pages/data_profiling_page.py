@@ -18,7 +18,11 @@ st.set_page_config(layout="wide")
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
 st.title("Data Profiling 📥")
-
+colored_header(
+    label="",
+    description="",
+    color_name="red-70",
+)
 video_file = open('assets/Webscrapping_exemple.mp4', 'rb')
 video_bytes = video_file.read()
 
