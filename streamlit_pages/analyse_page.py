@@ -17,9 +17,9 @@ df1 = pd.read_csv('dataset_1.csv')
 df2 = pd.read_csv('dataset_2.csv')
 df3 = pd.read_csv('dataset_3.csv')
 
-st.set_page_config(layout="wide"),
-with open("assets/style.css") as style:
-    st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
+st.set_page_config(layout="wide")
+# with open("assets/style.css") as style:
+#     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
 df1 = pd.read_csv('dataset_1.csv')
 df2 = pd.read_csv('dataset_2.csv')
