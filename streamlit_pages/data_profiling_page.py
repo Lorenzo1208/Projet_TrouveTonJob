@@ -3,7 +3,7 @@ import numpy as np
 import altair as alt
 import pandas as pd
 from st_pages import Page, add_page_title, show_pages
-
+from streamlit_extras.colored_header import colored_header
 import pandas_profiling
 from streamlit_pandas_profiling import st_profile_report
 
