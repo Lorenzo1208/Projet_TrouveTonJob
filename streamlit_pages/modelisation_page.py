@@ -9,7 +9,7 @@ st.set_page_config(layout="wide"),
 with open("assets/style.css") as style:
     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 
-add_page_title()
+add_page_title("🤖")
 
 st.title("Éstimer votre salaire 🤑")
 
