@@ -11,7 +11,7 @@ with open("assets/style.css") as style:
 
 add_page_title("🤖")
 
-st.title("Éstimer votre salaire 🤑")
+st.title("Estimer votre salaire 🤑")
 
 def on_submit_click(**kwargs):
     resp = send_update(**kwargs)
@@ -64,6 +64,6 @@ with st.form('Prédiction', clear_on_submit=True):
 
 with st.sidebar: 
     st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
-    st.title("Éstimer votre salaire 🤑")
+    st.title("Estimer votre salaire 🤑")
     choice = st.radio("Navigation", ["Modélisation","Analyse"])
     st.info("Cette section vous permet d'estimer votre salaire et d'analyser ces estimations.")
