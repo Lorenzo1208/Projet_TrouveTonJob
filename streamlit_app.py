@@ -3,11 +3,14 @@ import streamlit as st
 from st_pages import Page, add_page_title, show_pages
 from streamlit_extras.colored_header import colored_header
 from streamlit_extras.app_logo import add_logo
+from streamlit_extras.badges import badge
+
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
-from streamlit_extras.badges import badge
+add_logo("https://imgs.search.brave.com/38_9jgXr4T3xusZcXSQri27wYCQSN3G9fbudMQhMHVg/rs:fit:100:100:1/g:ce/aHR0cHM6Ly9pMy5m/ZWVkc3BvdC5jb20v/NDU2MzEzNS5qcGc")
 
+st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
 badge(type="github", name="Lorenzo1208/Projet_TrouveTonJob")
 show_pages(
         [
@@ -24,8 +27,8 @@ show_pages(
         ]
     )
 
-st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
-add_logo("https://imgs.search.brave.com/38_9jgXr4T3xusZcXSQri27wYCQSN3G9fbudMQhMHVg/rs:fit:100:100:1/g:ce/aHR0cHM6Ly9pMy5m/ZWVkc3BvdC5jb20v/NDU2MzEzNS5qcGc")
+
+
 
 colored_header(
     label="",
