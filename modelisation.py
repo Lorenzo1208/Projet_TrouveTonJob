@@ -69,16 +69,9 @@ def get_pipeline_model(prepa, model):
     return Pipeline([('preparation', prepa), ('model',model)])
 
 
-def search_best_model(model, X_y):
+def search_best_model(model, X_y, param_search):
 
     starting_time = time.time()
-
-    param_search = {
-        'n_estimators': [100, 1000, 10000, 100000],
-        'criterion': ["squared_error", "absolute_error", "friedman_mse"],
-        'max_features': ['sqrt', 'log2', None],
-        'random_state': range(1000)
-    }
 
     search = RandomizedSearchCV(model, param_search, n_iter = 100, cv=5, verbose=3)
 
@@ -97,7 +90,7 @@ def search_best_model(model, X_y):
         print("BEST PARAMS :", search.best_params_)
 
     print()
-    print(f"{duree//3600} H {duree%3600//60} M {duree%3600%60}")
+    print(f"{int(duree/3600)} H {int(duree%3600/60)} M {duree%3600%60}")
 
     return pipe_model
 
@@ -108,17 +101,18 @@ def get_diagram(pipeline):
     print(pipeline)
 
 
-def get_best_model():
+def get_best_model(file_name, model = None, params = None):
 
-    file_name = "best_model.model"
+    file_name = "best_model_SGDRegressor.model"
 
     if not exists(file_name):
 
+        if model is None or params is None:
+            raise Exception(file_name + " introuvable")
+
         X_y = cleaning_data(get_dataset_3())
 
-        model = RandomForestRegressor()
-
-        pipe_model = search_best_model(model, X_y)
+        pipe_model = search_best_model(model, X_y, params)
 
         pickle.dump(pipe_model, open(file_name, 'wb'))
 
@@ -180,7 +174,7 @@ def test_model():
     return best_model
 
 
-def main():
+def test_predict():
 
     file_name = "model_test.model"
 
@@ -210,9 +204,21 @@ def main():
     print(y)
 
 
-if __name__ == '__main__':
-    #main()
+def main():
 
-    #with open("log.txt", 'w') as f:
-    #    sys.stdout = f
-    get_best_model()
+    param_SGD = {
+        'max_iter': [1000000],
+        'loss': ["squared_error", "huber", "epsilon_insensitive", "squared_epsilon_insensitive"],
+        'penalty': ["l2", "l1", "elasticnet", None],
+        'shuffle': [True, False],
+        'random_state': range(10000),
+        'learning_rate': ["constant", "optimal", "invscaling", "adaptive"]
+    }
+
+    model_SGD = SGDRegressor()
+
+    get_best_model("SGDRegressor.model", model_SGD, param_SGD)
+
+
+if __name__ == '__main__':
+    main()
