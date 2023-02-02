@@ -19,9 +19,9 @@ show_pages(
             Page("streamlit_pages/modelisation_page.py","Modélisation en Machine learning")
         ]
     )
-st.empty()
-centered_image = st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
-st.empty()
+
+st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
+
 
 
 st.markdown('''
