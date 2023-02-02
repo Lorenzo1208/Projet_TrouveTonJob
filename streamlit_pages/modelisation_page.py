@@ -8,10 +8,15 @@ from st_pages import add_page_title
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
-
+from streamlit_extras.let_it_rain import rain
 st.title("Modélisation avec le machine learning 🤖")
 st.title("Estimer votre salaire 🤑")
-
+rain(
+    emoji="💸",
+    font_size=54,
+    falling_speed=5,
+    animation_length="infinite",
+)
 def on_submit_click(**kwargs):
     resp = send_update(**kwargs)
     st.success('Task submitted')
