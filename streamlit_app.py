@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
 from streamlit_extras.badges import badge
 
-badge(type="github", url="https://github.com/Lorenzo1208/Projet_TrouveTonJob")
+badge(type="github", name="https://github.com/Lorenzo1208/Projet_TrouveTonJob")
 show_pages(
         [
             
