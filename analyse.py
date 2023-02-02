@@ -54,6 +54,19 @@ df3 = pd.read_csv("dataset_3.csv")
 values_manquantes = pd.DataFrame({'df1': df1.isna().sum(), 'df2': df2.isna().sum(), 'df3': df3.isna().sum()})
 values_manquantes
 
+
+# #io.renderers.default='vscode'
+# df = values_manquantes
+# print(type(df))
+# df_y = ['df1','df2','df3']
+
+
+# fig = px.bar(df, x=df.index, y=df_y, 
+#              labels={'variable':'Dataset', 'value':'Nombre de valeurs na'}, 
+#              barmode='group', title='Valeurs nulles par colonnes sur chaque Dataset')
+# fig.write_html("valeurs_nulles.html")
+# fig.show()
+
 #dropna des df
 df1 =df1.dropna()
 df2 =df2.dropna()
@@ -68,6 +81,24 @@ df1.head()
 df2.head()
 
 df3.head()
+
+#Vérification des val nulles dans nos dataset
+values_non_manquantes = pd.DataFrame({'df1': df1.notna().sum(), 'df2': df2.notna().sum(), 'df3': df3.notna().sum()})
+values_non_manquantes
+df = values_non_manquantes
+# print(type(df))
+# df_y = ['df1','df2','df3']
+
+
+
+# fig = px.bar(df, x=df.index, y=df_y, 
+#              labels={'variable':'Dataset', 'value':'Nombre de valeurs na'}, 
+#              barmode='group', title='Valeurs non nulles par colonnes sur chaque Dataset')
+# fig.write_html("valeurs_non_nulles.html")
+# fig.show()
+
+
+
 
 """## Les fonction pour les graphique
 ###Pie chart

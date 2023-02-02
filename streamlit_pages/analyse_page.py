@@ -10,7 +10,7 @@ import plotly.express as px
 import seaborn as sns
 from analyse import *
 
-import pandas_profiling
+from pandas_profiling import profile_report
 from streamlit_pandas_profiling import st_profile_report
 
 df1 = pd.read_csv('dataset_1.csv')
