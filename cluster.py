@@ -50,7 +50,7 @@ def kmeans_data(df= pd.DataFrame()):
 
 
 def plot_elbow_method(X):
-    K = range(1, 40)
+    K = range(1, 20)
     inertias = []
 
     for k in K:
