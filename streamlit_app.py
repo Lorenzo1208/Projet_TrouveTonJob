@@ -1,12 +1,12 @@
 from pathlib import Path
 import streamlit as st
 from st_pages import Page, add_page_title, show_pages
-from streamlit_extras.app_logo import add_logo
+
 
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
-add_logo("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true")
+
 show_pages(
         [
             
@@ -22,7 +22,7 @@ show_pages(
         ]
     )
 
-# st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
+st.image("https://github.com/Lorenzo1208/Projet_TrouveTonJob/blob/main/assets/Logo.png?raw=true", width=400)
 
 
 
