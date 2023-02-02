@@ -11,12 +11,7 @@ st.set_page_config(layout="wide")
 from streamlit_extras.let_it_rain import rain
 st.title("Modélisation avec le machine learning 🤖")
 st.title("Estimer votre salaire 🤑")
-rain(
-    emoji="💸",
-    font_size=54,
-    falling_speed=5,
-    animation_length="infinite",
-)
+
 def on_submit_click(**kwargs):
     resp = send_update(**kwargs)
     st.success('Task submitted')
@@ -61,6 +56,12 @@ with st.form('Prédiction', clear_on_submit=True):
             y_min= int(y[0][0])
             y_max = int(y[0][1])
             st.write(f"Votre salaire est entre: {y_min} et {y_max} en €/an")
+        rain(
+        emoji="💸",
+        font_size=54,
+        falling_speed=5,
+        animation_length="infinite",
+    )
             
 
 with st.sidebar: 
