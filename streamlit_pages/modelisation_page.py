@@ -6,6 +6,7 @@ import numpy as np
 import modelisation
 from st_pages import add_page_title
 from streamlit_extras.colored_header import colored_header
+from streamlit_extras.metric_cards import style_metric_cards
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
 #     st.markdown(f"<style>{style.read()}</style>", unsafe_allow_html=True)
@@ -69,6 +70,9 @@ with st.form('Prédiction', clear_on_submit=True):
         font_size=54,
         falling_speed=5,
         animation_length="infinite",
+        col1 = st.columns(1)
+        col1.metric(label="Gain", value=y_min, delta=y_max)
+        style_metric_cards()
     )
             
 
