@@ -70,9 +70,9 @@ with st.form('Prédiction', clear_on_submit=True):
         font_size=54,
         falling_speed=5,
         animation_length="infinite",
-        col1 = st.columns(1)
-        col1.metric(label="Gain", value=y_min, delta=y_max)
-        style_metric_cards()
+        col1 = st.column(1)
+        st.write("Gain", y_min, delta=y_max, format='%0.2f')
+
     )
             
 
