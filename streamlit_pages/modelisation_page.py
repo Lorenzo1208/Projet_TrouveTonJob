@@ -65,8 +65,8 @@ with open("assets/style.css") as style:
                 y_min= int(y[0][0])
                 y_max = int(y[0][1])
                 col1, col2 = st.columns(2)
-                col1.metric(label="Salaire minimum 💶", value=f"{y_min} en €/an")
-                col2.metric(label="Salaire maximum 💵", value=f"{y_max} en €/an")
+                col1.metric(label="Salaire minimum", value=f"{y_min} en €/an 💶")
+                col2.metric(label="Salaire maximum", value=f"{y_max} en €/an 💵")
                 # style_metric_cards()
                 # st.write(f"Votre salaire est entre: {y_min} et {y_max} en €/an")
             rain(
