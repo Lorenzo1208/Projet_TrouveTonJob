@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: markdownlit
+Version: 0.0.5
+Summary: markdownlit adds a couple of lit Markdown capabilities to your Streamlit apps
+Author-email: Arnaud Miribel <arnaudmiribel@gmail.com>
+Project-URL: Homepage, https://github.com/arnaudmiribel/markdownlit
+Project-URL: Bug Tracker, https://github.com/arnaudmiribel/markdownlit/issues
+Keywords: python,streamlit,markdown
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: streamlit
+Requires-Dist: streamlit-extras
+Requires-Dist: htbuilder
+Requires-Dist: markdown
+Requires-Dist: lxml
+Requires-Dist: favicon
+Requires-Dist: pymdown-extensions
+
+<a href="https://markdownlit.streamlit.app" title="Markdownlit app"><img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg"></a><br>
+
+# markdownlit
+
+`markdownlit` gives you a couple of lit additional Markdown commands for your Streamlit apps! It is built upon the [Python-Markdown/markdown](https://github.com/Python-Markdown/markdown) project.
+
+## Get started
+
+The package is available on PyPI!
+
+```
+pip install markdownlit
+```
+
+## Introduction
+
+Visit... <a href="https://markdownlit.streamlit.app" title="Markdownlit app"><img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg"></a><br>

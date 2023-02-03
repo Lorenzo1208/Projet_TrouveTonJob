@@ -13,9 +13,9 @@ from streamlit_extras.colored_header import colored_header
 from pandas_profiling import profile_report
 from streamlit_pandas_profiling import st_profile_report
 
-df1 = pd.read_csv('dataset_1.csv')
-df2 = pd.read_csv('dataset_2.csv')
-df3 = pd.read_csv('dataset_3.csv')
+# df1 = pd.read_csv('dataset_1.csv')
+# df2 = pd.read_csv('dataset_2.csv')
+# df3 = pd.read_csv('dataset_3.csv')
 
 st.set_page_config(layout="wide")
 # with open("assets/style.css") as style:
@@ -42,12 +42,18 @@ st.write('Vous avez choisi le ', option)
 if option == 'dataset_1':
     df = df1
     st.write(df1)
+    pr = df1.profile_report()
+    # st_profile_report(pr)
 elif option == 'dataset_2':
     df = df2
     st.write(df2)
+    pr = df2.profile_report()
+    # st_profile_report(pr)
 else:
     df = df3
     st.write(df3)
+    pr = df3.profile_report()
+    # st_profile_report(pr)
 
 
 
@@ -101,22 +107,8 @@ corr_heatmap= heatmap(mat_corr[0],f"<b>Matrice de corrélation avec la méthode 
 st.plotly_chart(corr_heatmap)
 ##########################################################################################################################
 
-if option == 'dataset_1':
-    #st.write(type(dataset_1))
-    pr = df1.profile_report()
-    st_profile_report(pr)
-#     st.write(dataset_1)
-elif option == 'dataset_2':
-    
-    pr = df2.profile_report()
-    st_profile_report(pr)
-#     st.write(dataset_2)
-else:
-     
-    pr = df3.profile_report()
-    st_profile_report(pr)
-#     st.write(dataset_3)
-
+#Data profiling rapport
+st_profile_report(pr)
 
 ##########################################################################################################################
 

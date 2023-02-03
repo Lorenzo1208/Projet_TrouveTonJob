@@ -82,10 +82,10 @@ df2.head()
 
 df3.head()
 
-#Vérification des val nulles dans nos dataset
-values_non_manquantes = pd.DataFrame({'df1': df1.notna().sum(), 'df2': df2.notna().sum(), 'df3': df3.notna().sum()})
-values_non_manquantes
-df = values_non_manquantes
+# #Vérification des val nulles dans nos dataset
+# values_non_manquantes = pd.DataFrame({'df1': df1.notna().sum(), 'df2': df2.notna().sum(), 'df3': df3.notna().sum()})
+# values_non_manquantes
+# df = values_non_manquantes
 # print(type(df))
 # df_y = ['df1','df2','df3']
 
@@ -249,7 +249,7 @@ def main():
   top_n_jobs = jobs_best_n(df2,10)
 
   top_n_jobs
-  print(top_n_jobs.head(2))
+  # print(top_n_jobs.head(2))
   #Les postes les mieux payées graphique
   top_n_jobs_barplot = bar_plot_asc(top_n_jobs,"Intitulé du poste","salaire_moyen",top_n_jobs["salaire_moyen"],"salaire_moyen",f"<b>Les {len(top_n_jobs)} postes les mieux rémunérées en Ile-de-france</b>")
   top_n_jobs_barplot
